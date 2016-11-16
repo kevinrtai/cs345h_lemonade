@@ -113,17 +113,20 @@ int main(int argc, char** argv)
         std::istringstream iss(temp);
         string word;
         while (iss >> word && import) {
+            cout << word << endl;
             if (word == "give-me") {
                 iss >> word;
                 res += readLib(word);
                 temp.erase(0, 8); // remove word
                 temp.erase(0, word.length() + 1); // remove next word
+                iss >> word; // skip "in"
             } else {
                 import = false;
             }
         }
         res+=temp;
     }
+    cout << res;
     parse(res, report_error);
   
     if(print_ast && res_expr != NULL) {

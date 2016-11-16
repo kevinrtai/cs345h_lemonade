@@ -1,1 +1,3 @@
-give-me MathLibrary in (add pi e)
+give-me funcLib in
+give-me varLib in 
+(add pi e)
