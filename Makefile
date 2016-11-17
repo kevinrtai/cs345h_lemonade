@@ -12,7 +12,7 @@ parser: ${OBJs}
 	${CC} ${CFLAGS} ${INC_PARAMS} ${OBJs} -o l-interpreter -lfl
 
 repl:   ${rOBJs}
-	${CC} ${CFLAGS} ${INC_PARAMS} ${OBJs} -o l-repl -lfl
+	${CC} ${CFLAGS} ${INC_PARAMS} ${rOBJs} -o l-repl -lfl
 
 lex.yy.o: lex.yy.c
 

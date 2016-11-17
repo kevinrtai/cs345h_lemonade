@@ -79,67 +79,62 @@ string readLib(string libName) {
 
 int main(int argc, char** argv)
 {
-    if(argc <=1)
-    {
-        cout << "No filename given " << endl;
-        return -1;
-    }
-  
-    string filename;
-
     bool print_ast = false;
-    if(argc == 2)
-        filename = argv[1];
-    else {
-        filename = argv[2];
-        string flags = argv[1];
-        if(flags == "-ast") print_ast = true;
-    }
-    ifstream file(filename.c_str());
-    if(!file.is_open()) {
-        cout << "File \"" << filename << "\" cannot be opened." << endl;
-        return -1;
-    }
   
     string res;
     bool first = true;
     bool import = true;
-    while(!file.eof())
+
+    while(true)
     {
+        cout << ">> ";
         if(!first) res+="\n";
         first = false;
         string temp;
-        std::getline(file, temp);
+        std::getline(std::cin, temp);
+        // std::istringstream iss(temp);
+        // string word;
+        // while (iss >> word && import) {
+        //     cout << word << endl;
+        //     if (word == "give-me") {
+        //         iss >> word;
+        //         res += readLib(word);
+        //         temp.erase(0, 8); // remove word
+        //         temp.erase(0, word.length() + 1); // remove next word
+        //         iss >> word; // skip "in"
+        //     } else {
+        //         import = false;
+        //     }
+        // }
         std::istringstream iss(temp);
         string word;
-        while (iss >> word && import) {
-            cout << word << endl;
-            if (word == "give-me") {
-                iss >> word;
-                res += readLib(word);
-                temp.erase(0, 8); // remove word
-                temp.erase(0, word.length() + 1); // remove next word
-                iss >> word; // skip "in"
-            } else {
-                import = false;
+        iss >> word;
+        if(word == "examine") {
+            string temp_program;
+            temp_program = res;
+            while(iss >> word){
+                temp_program += word;
             }
-        }
-        res+=temp;
-    }
-    cout << res;
-    parse(res, report_error);
+            parse(temp_program, report_error);
   
-    if(print_ast && res_expr != NULL) {
-	    cout << "****************** AST ******************" << endl;
-	    cout << res_expr->to_string() << endl;
-	    cout << "*****************************************" << endl;
-    }
+            if(print_ast && res_expr != NULL) {
+	        cout << "****************** AST ******************" << endl;
+	        cout << res_expr->to_string() << endl;
+	        cout << "*****************************************" << endl;
+            }
 
-    if(res_expr != NULL) {
-	    Evaluator e;
-	    Expression* res = e.eval(res_expr);
-	    cout << res->to_value()<< endl;
+            if(res_expr != NULL) {
+	        Evaluator e;
+	        Expression* res = e.eval(res_expr);
+	        cout << res->to_value()<< endl;
+            }
+        } 
+        else if(word == "clear") {
+            res = "";
+        } else {
+            res+=temp;
+        }
     }
-
+    
     return 0;
 }
