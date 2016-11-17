@@ -1,21 +1,32 @@
-boot.php
-index.php
-install.php
-/config/*
-!/config/config.php
-/controllers/*
-/init/*
-/logs/*
-/phproad/*
-/temp/*
-/uploaded/*
-/installer_files/*
-/modules/backend/*
-/modules/blog/*
-/modules/cms/*
-/modules/core/*
-/modules/session/*
-/modules/shop/*
-/modules/system/*
-/modules/users/*
-# add content_*.php if you don't want erase client changes to content
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
