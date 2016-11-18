@@ -58,6 +58,8 @@ TOKEN_DIVIDE
 TOKEN_INT 
 TOKEN_LPAREN 
 TOKEN_RPAREN 
+TOKEN_LBRACKET
+TOKEN_RBRACKET
 TOKEN_AND 
 TOKEN_OR 
 TOKEN_EQ 
@@ -233,6 +235,10 @@ expression: TOKEN_INT
 {
 	$$ = $2;
 }
+| TOKEN_LBRACKET array_list TOKEN_RBRACKET
+{
+  $$ = $2;
+}
 | TOKEN_ERROR 
 {
    // do not change the error rule
@@ -243,12 +249,40 @@ expression: TOKEN_INT
    YYERROR;
 }
 
+
 identifier: TOKEN_IDENTIFIER
 {
 	string lexeme = GET_LEXEME($1);
   	$$ =  AstIdentifier::make(lexeme);
 }
 
+
+array_list: expression TOKEN_COMMA array_list
+{
+  Expression* expr1 = $1;
+  Expression* expr2 = $3;
+  AstArray* arr_list = static_cast<AstArray*>(expr2);
+  vector<Expression*> vec = arr_list->get_expressions();
+  vec.insert(vec.begin(), expr1);
+  $$ = AstArray::make(vec);
+}
+| expression TOKEN_COMMA expression
+{
+  // for nested arrays
+  Expression* expr1 = $1;
+  Expression* expr2 = $3;
+  vector<Expression*> vec;
+  vec.push_back(expr1);
+  vec.push_back(expr2);
+  $$ = AstArray::make(vec);
+}
+| expression
+{
+  Expression* expr1 = $1;
+  vector<Expression*> vec;
+  vec.push_back(expr1);
+  $$ = AstArray::make(vec);
+}
 
 expression_list: expression expression_list
 {
@@ -276,6 +310,7 @@ expression_list: expression expression_list
 {
 	$$ = $1;
 }
+
 
 identifier_list: identifier TOKEN_COMMA identifier_list
 {

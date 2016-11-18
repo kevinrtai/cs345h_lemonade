@@ -1,0 +1,2 @@
+let _ = print ["helo", "hello"] in
+0

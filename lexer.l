@@ -175,6 +175,14 @@ RCOM [*)]
     return TOKEN_RPAREN;
 }
 
+"[" {
+    return TOKEN_LBRACKET;
+}
+
+"]" {
+    return TOKEN_RBRACKET;
+}
+
 "&" {
     return TOKEN_AND;
 }

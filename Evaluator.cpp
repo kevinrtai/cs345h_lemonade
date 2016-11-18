@@ -362,6 +362,11 @@ Expression* Evaluator::eval(Expression* e)
 		res_exp = e;
 		break;
 	}
+	case AST_ARRAY:
+	{
+		res_exp = e;
+		break;
+	}
 	//ADD CASES FOR ALL EXPRESSIONS!!
 	default:
 		assert(false);
