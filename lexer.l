@@ -51,6 +51,7 @@ ALPHA [a-zA-Z_]
 DIGIT [0-9]
 IDENTIFIER {ALPHA}({ALPHA}|{DIGIT})*
 INT {DIGIT}+
+FLOAT [-]?{DIGIT}+(\.{DIGIT}+)([eE][+\-]?{DIGIT}+)?
 QUOTE ["]
 LCOM [(*]
 RCOM [*)]
@@ -248,6 +249,11 @@ RCOM [*)]
 {INT} {
     SET_LEXEME(yytext);
     return TOKEN_INT;
+}
+
+{FLOAT} {
+    SET_LEXEME(yytext);
+    return TOKEN_FLOAT;
 }
 
 {QUOTE} {

@@ -75,6 +75,7 @@ TOKEN_COMMA
 TOKEN_STRING 
 TOKEN_ERROR 
 TOKEN_IN
+TOKEN_FLOAT
 
 
 
@@ -102,6 +103,13 @@ expression: TOKEN_INT
   	Expression* e = AstInt::make(val);
   	$$ = e;
 } 
+| TOKEN_FLOAT
+{
+    string lexeme = GET_LEXEME($1);
+    double val = string_to_float(lexeme);
+    Expression* e = AstFloat::make(val);
+    $$ = e;
+}
 | TOKEN_STRING 
 {
 	string lexeme = GET_LEXEME($1);

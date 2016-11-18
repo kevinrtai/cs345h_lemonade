@@ -112,7 +112,36 @@ Expression* Evaluator::eval_binop (AstBinOp* b) {
 		} else if (b->get_binop_type() == CONS) {
             return AstList::make(first, second);
         }
-	
+	} else if (first->get_type() == AST_FLOAT && second->get_type() == AST_FLOAT) {
+		double val1 = static_cast<AstFloat*>(first)->get_float();
+		double val2 = static_cast<AstFloat*>(second)->get_float();
+
+		if (b->get_binop_type() == PLUS) {
+			return AstFloat::make(val1 + val2);
+		} else if (b->get_binop_type() == MINUS) {
+			return AstFloat::make(val1 - val2);
+		} else if (b->get_binop_type() == TIMES) {
+			return AstFloat::make(val1 * val2);
+		} else if (b->get_binop_type() == DIVIDE) {
+			return AstFloat::make(val1 / val2);
+		} else if (b->get_binop_type() == EQ) {
+			return AstFloat::make(val1 == val2);
+		} else if (b->get_binop_type() == NEQ) {
+			return AstInt::make(val1 != val2);
+		} else if (b->get_binop_type() == LT) {
+			return AstInt::make(val1 < val2);
+		} else if (b->get_binop_type() == LEQ) {
+			return AstInt::make(val1 <= val2);
+		} else if (b->get_binop_type() == GT) {
+			return AstInt::make(val1 > val2);
+		} else if (b->get_binop_type() == GEQ) {
+			return AstInt::make(val1 >= val2);
+		} else if (b->get_binop_type() == CONS) {
+            return AstList::make(first, second);
+        } else {
+        	string bt = AstBinOp::binop_type_to_string(b->get_binop_type());
+        	report_error(b, "Binop " + bt + " cannot be applied to floats");
+        }
 	} else if (first->get_type() == AST_STRING && second->get_type() == AST_STRING) {
 		string str1 = static_cast<AstString*>(first)->get_string();
 		string str2 = static_cast<AstString*>(second)->get_string();
@@ -263,6 +292,11 @@ Expression* Evaluator::eval(Expression* e)
 		break;
 	}
 	case AST_LIST:
+	{
+		res_exp = e;
+		break;
+	}
+	case AST_FLOAT:
 	{
 		res_exp = e;
 		break;
