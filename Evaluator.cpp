@@ -292,7 +292,34 @@ Expression* Evaluator::eval(Expression* e)
 		AstExpressionList* lst = static_cast<AstExpressionList*>(e);
 		vector<Expression*> exps = lst->get_expressions();
         Expression* first = eval(exps[0]);
-		if (first->get_type() != AST_LAMBDA) {
+		if (first->get_type() == AST_ARRAY) {
+			// AstArray* arr = static_cast<AstArray*>(first);
+			Expression* prev = first;
+			vector<Expression*>::iterator it = exps.begin();
+			it++;
+			for (; it != exps.end(); it++) {
+				if (prev->get_type() != AST_ARRAY) {
+					report_error(e, "Can only index into an array");
+				}
+				AstArray* arr = static_cast<AstArray*>(prev);
+				Expression* currExp = *it;
+				Expression* evalExp = eval(currExp);
+				if (evalExp->get_type() != AST_INT) {
+					report_error(e, "Array index must be integer");
+				}
+				AstInt* astInt = static_cast<AstInt*>(evalExp);
+				int index = astInt->get_int();
+				int len = arr->size();
+				if (index < 0 || index >= len) {
+					// TODO: make error better
+					report_error(e, "Array index out of bounds");
+				}
+				prev = arr->get(index);
+			}
+			res_exp = prev;
+			break;
+
+		} else if (first->get_type() != AST_LAMBDA) {
 			report_error(e, "Only lambda expressions can be applied to other expressions");
 		}
 		if(exps.size() == 2) {
@@ -364,7 +391,14 @@ Expression* Evaluator::eval(Expression* e)
 	}
 	case AST_ARRAY:
 	{
-		res_exp = e;
+		AstArray* arr = static_cast<AstArray*>(e);
+		vector<Expression*> vec = arr->get_expressions();
+		vector<Expression*> evalVec;
+		for (vector<Expression*>::iterator it = vec.begin(); it != vec.end(); it++)
+		{
+			evalVec.push_back(eval(*it));
+		}
+		res_exp = AstArray::make(evalVec);
 		break;
 	}
 	//ADD CASES FOR ALL EXPRESSIONS!!
