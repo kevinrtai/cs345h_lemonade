@@ -231,6 +231,10 @@ expression: TOKEN_INT
 {
     $$ = AstUnOp::make(TL, $2);
 }
+| TOKEN_LBRACKET TOKEN_RBRACKET
+{
+  $$ = AstArray::make();
+}
 | TOKEN_LPAREN expression_list TOKEN_RPAREN 
 {
 	$$ = $2;

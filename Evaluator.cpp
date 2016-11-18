@@ -203,6 +203,23 @@ Expression* Evaluator::eval_binop (AstBinOp* b) {
         	string bt = AstBinOp::binop_type_to_string(b->get_binop_type());
         	report_error(b, "Binop " + bt + " cannot be applied to floats");
         }
+    } else if (first->get_type() == AST_ARRAY && b->get_binop_type() == PLUS) {
+    	AstArray* arr = static_cast<AstArray*>(first);
+    	if (second->get_type() == AST_ARRAY) {
+    		// concatenate the two arrays
+    		AstArray* secondArr = static_cast<AstArray*>(second);
+    		vector<Expression*> secondVec = secondArr->get_expressions();
+    		vector<Expression*> firstVec = arr->get_expressions();
+    		firstVec.insert(firstVec.end(), secondVec.begin(), secondVec.end());
+    		return AstArray::make(firstVec);
+    	} else {
+    		// append the expression onto the end of the array
+    		vector<Expression*> firstVec = arr->get_expressions();
+    		firstVec.push_back(second);
+    		return AstArray::make(firstVec);
+    	}
+
+
 	} else if (first->get_type() == AST_STRING && second->get_type() == AST_STRING) {
 		string str1 = static_cast<AstString*>(first)->get_string();
 		string str2 = static_cast<AstString*>(second)->get_string();
@@ -322,7 +339,7 @@ Expression* Evaluator::eval(Expression* e)
 		} else if (first->get_type() != AST_LAMBDA) {
 			report_error(e, "Only lambda expressions can be applied to other expressions");
 		}
-		if(exps.size() == 2) {
+		if (exps.size() == 2) {
 			AstLambda* lambda = static_cast<AstLambda*>(first);
             Expression* new_body = lambda->get_body()->substitute(lambda->get_formal(), exps[1]);
 			res_exp = eval(new_body);

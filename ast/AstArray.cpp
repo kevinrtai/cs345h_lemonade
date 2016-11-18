@@ -16,6 +16,14 @@ AstArray* AstArray::make(Expression* e)
     return static_cast<AstArray*>(res);
 }
 
+AstArray* AstArray::make()
+{
+    AstArray* array = new AstArray();
+    Expression* res = get_exp(array);
+    assert(res->get_type() == AST_ARRAY);
+    return static_cast<AstArray*>(res);
+}
+
 AstArray::AstArray(Expression* e)
 {
     vec.push_back(e);
@@ -26,6 +34,12 @@ AstArray::AstArray(Expression* e)
 AstArray::AstArray(vector<Expression*>& exps)
 {
     this->vec = exps;
+    this->et = AST_ARRAY;
+    compute_hash();
+}
+
+AstArray::AstArray()
+{
     this->et = AST_ARRAY;
     compute_hash();
 }

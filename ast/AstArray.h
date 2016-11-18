@@ -8,9 +8,11 @@ private:
     vector<Expression*> vec;
     AstArray(Expression* expr);
     AstArray(vector<Expression*>& expr);
+    AstArray();
 public:
     static AstArray* make(Expression* e);
     static AstArray* make(vector<Expression*>& expr_vec);
+    static AstArray* make();
     virtual string to_string(int d = 0);
     virtual string to_value();
     const vector<Expression*>& get_expressions();
