@@ -1,6 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <set>
+#include "ast/expression.h"
+#include "Evaluator.h"
 
 
 using namespace std;
@@ -8,13 +11,11 @@ using namespace std;
 int yylex();
 int yyparse();
 extern int yy_scan_string(const char* c);
-#include "ast/expression.h"
-#include "Evaluator.h"
 
 void (*parser_error_fn)(string);
 int curr_lineno;
 Expression* res_expr;
-
+std::set<string> libraries;
 
 string int_to_string(long i)
 {
@@ -67,6 +68,11 @@ void report_error(string c)
 }
 
 string readLib(string libName) {
+    if (libraries.find(libName) != libraries.end()) {
+        cout << "Are you boosted?";
+        return "";
+    }
+    libraries.insert(libName);
     string buff = "";
     libName += ".cookie";
     ifstream file(libName.c_str());
@@ -75,12 +81,29 @@ string readLib(string libName) {
         return "";
     }
     bool first = true;
+    bool import = true;
     while (!file.eof()) {
         if (first) buff += "\n";
         first = false;
         string temp;
         std::getline(file, temp);
-        // cout << temp;
+        std::istringstream iss(temp);
+        string word;
+        while (iss >> word && import) {
+            if (word == "give-me") {
+                temp.erase(0, word.length() + 1); // remove "give-me"
+                iss >> word;
+                string libContent = readLib(word);
+                buff += libContent;
+                temp.erase(0, word.length() + 1); // remove next word
+                iss >> word; // skip "in"
+                if (libContent == "") {
+                    temp.erase(0, word.length() + 1); // remove next word
+                }
+            } else {
+                import = false;
+            }
+        }
         buff += temp + " ";
     }
     return buff;
@@ -123,11 +146,15 @@ int main(int argc, char** argv)
         string word;
         while (iss >> word && import) {
             if (word == "give-me") {
+                temp.erase(0, word.length() + 1); // remove "give-me"
                 iss >> word;
-                res += readLib(word);
-                temp.erase(0, 8); // remove word
+                string libContent = readLib(word);
+                res += libContent;
                 temp.erase(0, word.length() + 1); // remove next word
                 iss >> word; // skip "in"
+                if (libContent == "") {
+                    temp.erase(0, word.length() + 1); // remove next word
+                }
             } else {
                 import = false;
             }

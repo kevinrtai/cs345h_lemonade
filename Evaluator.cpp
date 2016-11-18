@@ -433,6 +433,7 @@ Expression* Evaluator::eval(Expression* e)
 		Expression* body = let->get_body();
 		sym_tab.push();
 		sym_tab.add(id, eval(val));
+        sym_tab.print_contents();
 		res_exp = eval(body);
 		sym_tab.pop();
 		break;
