@@ -34,7 +34,12 @@ long int string_to_int(const string & s)
 	return res;
 }
 
-
+string float_to_string(double f)
+{
+    stringstream s;
+    s << f;
+    return s.str();
+}
 
 
 
@@ -59,7 +64,7 @@ void report_error(string c)
 
 string readLib(string libName) {
     string buff = "";
-    libName += ".L";
+    libName += ".cookie";
     ifstream file(libName.c_str());
     if (!file.is_open()) {
         cout << "Library \"" << libName << " cannot be opened." << endl;

@@ -32,11 +32,13 @@
 
  enum expression_type {AST_BINOP,  AST_IDENTIFIER,
  AST_INT, AST_LAMBDA, AST_LET, AST_STRING, AST_IDENTIFIER_LIST,
- AST_EXPRESSION_LIST, AST_BRANCH, AST_NIL, AST_LIST, AST_UNOP, AST_READ};
+ AST_EXPRESSION_LIST, AST_BRANCH, AST_NIL, AST_LIST, AST_UNOP, AST_READ, AST_FLOAT};
  
  string get_depth(int d);
  string int_to_string(long i);
  long int string_to_int(const string & s);
+ string float_to_string(double f);
+ double string_to_float(const string & s);
   
  class Expression;
  

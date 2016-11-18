@@ -34,8 +34,17 @@ long int string_to_int(const string & s)
 	return res;
 }
 
+string float_to_string(double f)
+{
+    stringstream s;
+    s << f;
+    return s.str();
+}
 
-
+double string_to_float(const string& s)
+{
+    return stof(s);
+}
 
 
 void parse(const string & s, void (*write_fn)(string))
