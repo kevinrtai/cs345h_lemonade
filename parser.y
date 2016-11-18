@@ -271,7 +271,6 @@ expression: TOKEN_INT
    YYERROR;
 }
 
-
 identifier: TOKEN_IDENTIFIER
 {
 	string lexeme = GET_LEXEME($1);
@@ -364,7 +363,6 @@ expression_list: expression expression_list
 {
 	$$ = $1;
 }
-
 
 identifier_list: identifier TOKEN_COMMA identifier_list
 {

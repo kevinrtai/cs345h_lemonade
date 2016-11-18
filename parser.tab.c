@@ -506,8 +506,8 @@ static const yytype_uint16 yyrline[] =
        0,   102,   102,   107,   114,   121,   127,   131,   135,   146,
      156,   160,   164,   168,   172,   176,   180,   184,   188,   192,
      196,   200,   204,   208,   212,   216,   220,   224,   228,   232,
-     236,   240,   244,   248,   252,   256,   260,   264,   275,   281,
-     293,   305,   314,   323,   333,   341,   356,   363,   369,   391
+     236,   240,   244,   248,   252,   256,   260,   264,   274,   280,
+     292,   304,   313,   322,   332,   340,   355,   362,   367,   389
 };
 #endif
 
@@ -1731,7 +1731,7 @@ yyreduce:
     break;
 
   case 38:
-#line 276 "parser.y" /* yacc.c:1646  */
+#line 275 "parser.y" /* yacc.c:1646  */
     {
 	string lexeme = GET_LEXEME((yyvsp[0]));
   	(yyval) =  AstIdentifier::make(lexeme);
@@ -1740,7 +1740,7 @@ yyreduce:
     break;
 
   case 39:
-#line 282 "parser.y" /* yacc.c:1646  */
+#line 281 "parser.y" /* yacc.c:1646  */
     {
     Expression* expr1 = (yyvsp[-4]);
     Expression* expr3 = (yyvsp[-2]);
@@ -1756,7 +1756,7 @@ yyreduce:
     break;
 
   case 40:
-#line 294 "parser.y" /* yacc.c:1646  */
+#line 293 "parser.y" /* yacc.c:1646  */
     {
     // for nested dicts
     Expression* expr1 = (yyvsp[-6]);
@@ -1772,7 +1772,7 @@ yyreduce:
     break;
 
   case 41:
-#line 306 "parser.y" /* yacc.c:1646  */
+#line 305 "parser.y" /* yacc.c:1646  */
     {
     Expression* expr1 = (yyvsp[-2]);
     Expression* expr3 = (yyvsp[0]);
@@ -1784,7 +1784,7 @@ yyreduce:
     break;
 
   case 42:
-#line 315 "parser.y" /* yacc.c:1646  */
+#line 314 "parser.y" /* yacc.c:1646  */
     {
   Expression* expr1 = (yyvsp[-2]);
   Expression* expr2 = (yyvsp[0]);
@@ -1797,7 +1797,7 @@ yyreduce:
     break;
 
   case 43:
-#line 324 "parser.y" /* yacc.c:1646  */
+#line 323 "parser.y" /* yacc.c:1646  */
     {
   // for nested arrays
   Expression* expr1 = (yyvsp[-2]);
@@ -1811,7 +1811,7 @@ yyreduce:
     break;
 
   case 44:
-#line 334 "parser.y" /* yacc.c:1646  */
+#line 333 "parser.y" /* yacc.c:1646  */
     {
   Expression* expr1 = (yyvsp[0]);
   vector<Expression*> vec;
@@ -1822,7 +1822,7 @@ yyreduce:
     break;
 
   case 45:
-#line 342 "parser.y" /* yacc.c:1646  */
+#line 341 "parser.y" /* yacc.c:1646  */
     {
 	Expression* expr1 = (yyvsp[-1]);
     Expression* expr2 = (yyvsp[0]);
@@ -1841,7 +1841,7 @@ yyreduce:
     break;
 
   case 46:
-#line 357 "parser.y" /* yacc.c:1646  */
+#line 356 "parser.y" /* yacc.c:1646  */
     {
     Expression* expr1 = (yyvsp[-1]);
     Expression* expr2 = (yyvsp[0]);
@@ -1852,7 +1852,7 @@ yyreduce:
     break;
 
   case 47:
-#line 364 "parser.y" /* yacc.c:1646  */
+#line 363 "parser.y" /* yacc.c:1646  */
     {
 	(yyval) = (yyvsp[0]);
 }
@@ -1860,7 +1860,7 @@ yyreduce:
     break;
 
   case 48:
-#line 370 "parser.y" /* yacc.c:1646  */
+#line 368 "parser.y" /* yacc.c:1646  */
     {
     Expression* expr1 = (yyvsp[-2]);
     Expression* expr3 = (yyvsp[0]);
@@ -1886,7 +1886,7 @@ yyreduce:
     break;
 
   case 49:
-#line 392 "parser.y" /* yacc.c:1646  */
+#line 390 "parser.y" /* yacc.c:1646  */
     {
     (yyval) = (yyvsp[0]);
 }

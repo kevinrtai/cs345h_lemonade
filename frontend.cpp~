@@ -34,6 +34,7 @@ long int string_to_int(const string & s)
 	return res;
 }
 
+<<<<<<< HEAD
 string float_to_string(double f)
 {
     stringstream s;
@@ -45,6 +46,10 @@ double string_to_float(const string& s)
 {
     return stof(s);
 }
+=======
+
+
+>>>>>>> Added Kevin + Steven parser, lexer.
 
 
 void parse(const string & s, void (*write_fn)(string))
@@ -68,7 +73,11 @@ void report_error(string c)
 
 string readLib(string libName) {
     string buff = "";
+<<<<<<< HEAD
     libName += ".cookie";
+=======
+    libName += ".L";
+>>>>>>> Added Kevin + Steven parser, lexer.
     ifstream file(libName.c_str());
     if (!file.is_open()) {
         cout << "Library \"" << libName << " cannot be opened." << endl;
