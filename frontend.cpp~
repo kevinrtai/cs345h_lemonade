@@ -59,7 +59,7 @@ void report_error(string c)
 
 string readLib(string libName) {
     string buff = "";
-    libName += ".cookie";
+    libName += ".L";
     ifstream file(libName.c_str());
     if (!file.is_open()) {
         cout << "Library \"" << libName << " cannot be opened." << endl;
@@ -141,5 +141,4 @@ int main(int argc, char** argv)
 	    cout << res->to_value()<< endl;
     }
 
-    return 0;
 }

@@ -1,0 +1,112 @@
+(* Ziqiu Chen   zc3428  stevenchen@utexas.edu *)
+(* Kevin Tai    krt752  kevin.r.tai@utexas.edu *)
+
+(* Checks if n is within range of 0 and 100. *)
+fun inRange with n =
+    (n >= 0) & (n <= 100)
+in
+
+(* Returns a list of n user-input integers within range. *)
+fun getNumsInRange with n =
+    if n <= 0 then Nil else 
+        let current = readInt in
+            if (inRange current) then current@(getNumsInRange (n - 1)) else 
+                let _ = print "Not in range [0, 100], try again:" in
+                    (getNumsInRange n) 
+in
+
+(* Returns sum of the given list. *)
+fun sum with lst =
+    if (isNil lst) then 0 else !lst + (sum #lst)
+in
+
+(* While user requests it, calls f with param and returns a 
+   zero-terminated list of f's output. *)
+fun while with f, param =
+    let _ = print "Add another student? (y/n)" in
+    let response = readString in
+    if (response = "y") | (response = "Y") | (response = "yes") |
+            (response = "Yes") | (response = "YES")
+        then (f param)@(while f param) else
+    if (response = "n") | (response = "N") | (response = "no") |
+            (response = "No") | (response = "NO")
+        then 0 else
+    (while f param)
+in
+
+(* Returns list of student name followed by student's grades. *) 
+fun getStudents with n =
+    let _ = print "Enter student name:"  in
+    let student = readString in
+    let _ = print "Enter student grades:" in
+    student@(getNumsInRange n)
+in
+
+(* Returns dot product of two input lists of integers. *)
+fun dotProduct with a, b =
+    if (isNil a) | (isNil b) then 0 else (!a * !b) + (dotProduct #a #b)
+in
+
+(* Given list of weights and students, returns output lists of pairs of 
+   student names and their weighted averages. *)
+fun calculateAverages with weights, students =
+    if (isNil weights) | (isNil #students) 
+        then 0 
+        else ((!(!students))@((dotProduct weights #(!students)) / 100))@
+                (calculateAverages weights #students)
+in
+
+(* Returns length of a zero-terminated list, not including terminating zero. *)
+fun len with lst =
+    if isNil #lst then 0 else 1 + (len #lst)
+in
+
+(* Returns zero-terminated first n elements of the input list.
+   Assumes n <= (len lst). *)
+fun take with lst, n = 
+    if n = 0 then 0 else (!lst)@(take #lst (n - 1))
+in
+
+(* Returns zero-terminated last n elements of the input list.
+   Assumes n <= (len lst). *)
+fun drop with lst, n =
+    if n = 0 then lst else (drop #lst (n - 1))
+in
+
+(* Merges two descending, zero-terminated student-average lists. *)
+fun merge with a, b =
+    if isNil #a then b else 
+    if isNil #b then a else
+    if #(!a) > #(!b) then (!a)@(merge #a b) else (!b)@(merge a #b)
+in
+
+(* Sorts the given zero-terminated student-average list in descending order. *)
+fun sort with lst = 
+    let localList = lst in
+    let l = (len lst) in
+    if l = 1 then localList else
+    let a = (take localList (l / 2)) in
+    let b = (drop localList (l / 2)) in
+    let sa = (sort a) in
+    let sb = (sort b) in
+    let merged = (merge sa sb) in
+    merged
+in
+
+(* Removes the terminating zero from the list. *)
+fun unterminate with lst =
+    if (len lst) = 0 then Nil else (!lst)@(unterminate #lst)
+in
+
+let _ = print "Enter number of assignments:" in
+let numAssignments = readInt in
+if numAssignments <= 0 then print "Error: Non-positive # of assignments." else 
+
+let _ = print "Enter assignment weights:" in
+let weights = (getNumsInRange numAssignments) in
+if (sum weights) <> 100 then print "Error: Weights don't add up to 100." else 
+
+let students = (getStudents numAssignments)@(while getStudents numAssignments) in
+let avgs = (calculateAverages weights students) in
+let sorted = (sort avgs) in
+(unterminate sorted)
