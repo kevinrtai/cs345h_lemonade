@@ -84,7 +84,8 @@ extern int yydebug;
     TOKEN_ERROR = 294,
     TOKEN_IN = 295,
     TOKEN_FLOAT = 296,
-    EXPR = 297
+    TOKEN_LEN = 297,
+    EXPR = 298
   };
 #endif
 

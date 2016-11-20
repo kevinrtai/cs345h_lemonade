@@ -2,7 +2,7 @@
  #define AST_UNOP_H_
  #include "Expression.h"
  
- enum unop_type {HD, TL, ISNIL, PRINT, LEN};
+ enum unop_type {HD, TL, ISNIL, PRINT};
  
  class AstUnOp;
 

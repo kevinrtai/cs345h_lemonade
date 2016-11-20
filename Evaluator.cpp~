@@ -73,8 +73,7 @@ Expression* Evaluator::eval_unop(AstUnOp* b)
 		}
 	} else if (b->get_unop_type() == LEN) {
         if (eval_e->get_type() == AST_ARRAY) {
-            AstArray* array = static_cast<AstArray*>(eval_e);
-            return AstInt::make(array->size());
+
         } else {
             report_error(e, "len can only be applied to arrays");
         }

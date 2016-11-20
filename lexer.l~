@@ -124,10 +124,6 @@ RCOM [*)]
     return TOKEN_ISNIL;
 }
 
-(?i:len) {
-    return TOKEN_LEN;
-}
-
 "!" {
     return TOKEN_HD;
 }
