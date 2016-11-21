@@ -91,6 +91,7 @@ int main(int argc, char** argv)
         if(!first) res+="\n";
         first = false;
         string temp;
+        // apparently getline behaves poorly with backspace
         std::getline(std::cin, temp);
         // std::istringstream iss(temp);
         // string word;
@@ -114,6 +115,7 @@ int main(int argc, char** argv)
             temp_program = res;
             while(iss >> word){
                 temp_program += word;
+                temp_program += " ";
             }
             parse(temp_program, report_error);
   
@@ -132,7 +134,35 @@ int main(int argc, char** argv)
         else if(word == "clear") {
             res = "";
         } else {
+            // Maybe try to eavluate and only add to res if it doesn't fail?
+            // This would mean we wouldn't have to clear after errors.
             res+=temp;
+            string temp_copy = temp;
+            string temp_prog = res;
+            if (word == "let" || word == "fun") {
+                std::istringstream temp_iss(temp_copy);
+                string temp_word;
+                temp_iss >> temp_word;
+                // assert word is let or fun
+                temp_iss >> temp_word;
+                // temp_word should now contain identifier name
+                temp_prog += "\n";
+                temp_prog += temp_word;
+            }
+            // Maybe this should be factored out?
+            parse(temp_prog, report_error); 
+            if(print_ast && res_expr != NULL) {
+	        cout << "****************** AST ******************" << endl;
+	        cout << res_expr->to_string() << endl;
+	        cout << "*****************************************" << endl;
+            }
+
+            if(res_expr != NULL) {
+	        Evaluator e;
+	        Expression* res = e.eval(res_expr);
+	        cout << res->to_value()<< endl;
+            }
+            
         }
     }
     
