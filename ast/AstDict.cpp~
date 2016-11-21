@@ -20,7 +20,6 @@ AstDict* AstDict::make(unordered_map<string, Expression*>& in_map)
 AstDict* AstDict::make(vector<pair<Expression*, Expression*> >& vec)
 {
     // constructor used by the parser, with un-evaluated expressions
-    cout << "In the constructor" << endl;
     cout << vec.size() << endl;
     vector<pair<Expression*, Expression*> > copy = vec;
     AstDict* d = new AstDict(copy);
@@ -139,7 +138,7 @@ const vector<pair<Expression*, Expression*> >& AstDict::get_vec()
 
 bool AstDict::contains(const string& str)
 {
-    return dict.find(str) == dict.end();
+    return dict.find(str) != dict.end();
 }
 
 Expression* AstDict::substitute(Expression* e1, Expression* e2)

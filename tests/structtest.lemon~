@@ -1,0 +1,15 @@
+let a = 1 in
+let b = 2 in
+let c = 3 in
+let arr = [a, b, c] in
+let dict = {"a": a, "b": b, "c": c} in
+let string = "hello world" in
+let _ = print "Dict:" in
+let _ = print dict in
+let _ = print (len dict) in
+let _ = print (dict "e") in
+let _ = print "String:" in
+let _ = print string in
+let _ = print (len string) in
+let _ = print (string 1) in
+0

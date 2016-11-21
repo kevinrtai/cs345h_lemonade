@@ -75,6 +75,12 @@ Expression* Evaluator::eval_unop(AstUnOp* b)
         if (eval_e->get_type() == AST_ARRAY) {
             AstArray* array = static_cast<AstArray*>(eval_e);
             return AstInt::make(array->size());
+        } else if (eval_e->get_type() == AST_STRING) {
+            AstString* str = static_cast<AstString*>(eval_e);
+            return AstInt::make(str->get_string().size());
+        } else if (eval_e->get_type() == AST_DICT) {
+            AstDict* dict = static_cast<AstDict*>(eval_e);
+            return AstInt::make(dict->size());
         } else {
             report_error(e, "len can only be applied to arrays");
         }
@@ -246,7 +252,7 @@ Expression* Evaluator::eval_binop (AstBinOp* b) {
 
 	} else if (first->get_type() == AST_LIST || second->get_type() == AST_LIST) {
 		if(b->get_binop_type() != CONS) {
-			report_error(b, "Binpo @ is the only legal binop for lists");
+			report_error(b, "Binop @ is the only legal binop for lists");
 		} else {
             return AstList::make(first, second);
         }
@@ -259,6 +265,7 @@ Expression* Evaluator::eval_binop (AstBinOp* b) {
 			report_error(b, "Nil can only be used with binop @");
 		}
 		report_error(b, "Binop can only be applied to expressions of same type");
+        assert(false);
 	}
 }
 
@@ -316,29 +323,59 @@ Expression* Evaluator::eval(Expression* e)
 		AstExpressionList* lst = static_cast<AstExpressionList*>(e);
 		vector<Expression*> exps = lst->get_expressions();
         Expression* first = eval(exps[0]);
-		if (first->get_type() == AST_ARRAY) {
-			// AstArray* arr = static_cast<AstArray*>(first);
+		if (first->get_type() == AST_ARRAY || first->get_type() == AST_DICT
+                || first->get_type() == AST_STRING) {
 			Expression* prev = first;
 			vector<Expression*>::iterator it = exps.begin();
 			it++;
 			for (; it != exps.end(); it++) {
-				if (prev->get_type() != AST_ARRAY) {
-					report_error(e, "Can only index into an array");
+				if (!(prev->get_type() == AST_ARRAY
+                        || prev->get_type() == AST_DICT
+                        || prev->get_type() == AST_STRING)) {
+					report_error(e, "can only index into array, string, or dict");
 				}
-				AstArray* arr = static_cast<AstArray*>(prev);
-				Expression* currExp = *it;
-				Expression* evalExp = eval(currExp);
-				if (evalExp->get_type() != AST_INT) {
-					report_error(e, "Array index must be integer");
-				}
-				AstInt* astInt = static_cast<AstInt*>(evalExp);
-				int index = astInt->get_int();
-				int len = arr->size();
-				if (index < 0 || index >= len) {
-					// TODO: make error better
-					report_error(e, "Array index out of bounds");
-				}
-				prev = arr->get(index);
+                if (prev->get_type() == AST_ARRAY) {
+                    AstArray* arr = static_cast<AstArray*>(prev);
+                    Expression* currExp = *it;
+                    Expression* evalExp = eval(currExp);
+                    if (evalExp->get_type() != AST_INT) {
+                        report_error(e, "array index must be integer");
+                    }
+                    AstInt* astInt = static_cast<AstInt*>(evalExp);
+                    int index = astInt->get_int();
+                    int len = arr->size();
+                    if (index < 0 || index >= len) {
+                        report_error(e, "array index out of bounds");
+                    }
+                    prev = arr->get(index);
+                } else if (prev->get_type() == AST_DICT) {
+                    AstDict* dict = static_cast<AstDict*>(prev);
+                    Expression* currExp = *it;
+                    Expression* evalExp = eval(currExp);
+                    if (evalExp->get_type() != AST_STRING) {
+                        report_error(e, "dict index must be string");
+                    }
+                    AstString* astString = static_cast<AstString*>(evalExp);
+                    string str = astString->get_string();
+                    if (!dict->contains(str)) {
+                        report_error(e, "dict key not present");
+                    }
+                    prev = dict->get(str);
+                } else if (prev->get_type() == AST_STRING) {
+                    AstString* astString = static_cast<AstString*>(prev);
+                    Expression* currExp = *it;
+                    Expression* evalExp = eval(currExp);
+                    if (evalExp->get_type() != AST_INT) {
+                        report_error(e, "string index must be integer");
+                    }
+                    AstInt* astInt = static_cast<AstInt*>(evalExp);
+                    unsigned int index = astInt->get_int();
+                    string str = astString->get_string();
+                    if (index < 0 || index >= str.size()) {
+                        report_error(e, "string index out of bounds");
+                    }
+                    prev = AstString::make(str.substr(index, 1));
+                }
 			}
 			res_exp = prev;
 			break;
@@ -439,7 +476,7 @@ Expression* Evaluator::eval(Expression* e)
                     report_error(e, "dicts must use strings as keys");
                 }
                 AstString* ast_str = static_cast<AstString*>(evaled_expr);
-                new_map[ast_str->to_value()] = it.second;
+                new_map[ast_str->get_string()] = it.second;
             }
             dict = AstDict::make(new_map);
         }
