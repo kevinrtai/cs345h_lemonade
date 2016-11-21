@@ -122,7 +122,6 @@ int main(int argc, char** argv)
         std::istringstream iss(temp);
         string word;
         while (iss >> word && import) {
-            cout << word << endl;
             if (word == "give-me") {
                 iss >> word;
                 res += readLib(word);
@@ -135,7 +134,6 @@ int main(int argc, char** argv)
         }
         res+=temp;
     }
-    cout << res;
     parse(res, report_error);
   
     if(print_ast && res_expr != NULL) {

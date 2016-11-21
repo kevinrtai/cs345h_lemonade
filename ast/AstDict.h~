@@ -19,7 +19,7 @@ public:
     static AstDict* make();
     virtual string to_string(int d = 0);
     virtual string to_value();
-    const map<string, Expression*>& get_dict();
+    const unordered_map<string, Expression*>& get_dict();
     bool contains(const string& str);
     Expression* get(const string& str);
     int size();

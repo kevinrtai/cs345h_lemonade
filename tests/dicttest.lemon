@@ -1,0 +1,2 @@
+let str = "hello" in
+{str: 5, "goodbye": 7, "yey": 9, "last": 11}

@@ -24,7 +24,7 @@ public:
     Expression* get(const string& str);
     int size();
     bool raw();
-    vector<pair<Expression*, Expression*> >& get_vec();
+    const vector<pair<Expression*, Expression*> >& get_vec();
     virtual Expression* substitute(Expression* e1, Expression* e2);
     virtual bool operator==(const Expression& other);
 private:

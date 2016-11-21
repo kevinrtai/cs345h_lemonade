@@ -425,10 +425,38 @@ Expression* Evaluator::eval(Expression* e)
 		res_exp = AstArray::make(evalVec);
 		break;
 	}
+    case AST_DICT:
+    {
+        AstDict* dict = static_cast<AstDict*>(e);
+        if (dict->raw()) {
+            // convert dict to proper form
+            vector<pair<Expression*, Expression*> > vec = dict->get_vec();
+            unordered_map<string, Expression*> new_map;
+            for (auto it : vec)
+            {
+                Expression* evaled_expr = eval(it.first);
+                if (evaled_expr->get_type() != AST_STRING) {
+                    report_error(e, "dicts must use strings as keys");
+                }
+                AstString* ast_str = static_cast<AstString*>(evaled_expr);
+                new_map[ast_str->to_value()] = it.second;
+            }
+            dict = AstDict::make(new_map);
+        }
+        unordered_map<string, Expression*> eval_map;
+        for (auto it : dict->get_dict())
+        {
+            eval_map[it.first] = eval(it.second);
+        }
+        res_exp = AstDict::make(eval_map);
+        break;
+    }
 	//ADD CASES FOR ALL EXPRESSIONS!!
 	default:
+    {
+        report_error(e, "unknown parse tree");
 		assert(false);
-
+    }
 
 	}
 	return res_exp;

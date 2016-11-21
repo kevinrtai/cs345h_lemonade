@@ -87,6 +87,7 @@ TOKEN_COLON;
 
 %nonassoc EXPR
 %nonassoc TOKEN_PRINT TOKEN_LEN
+%left TOKEN_COLON
 %left TOKEN_EQ TOKEN_NEQ TOKEN_LT TOKEN_GT TOKEN_GEQ TOKEN_LEQ
 %left TOKEN_AND TOKEN_OR
 %left TOKEN_PLUS TOKEN_MINUS
@@ -274,16 +275,29 @@ identifier: TOKEN_IDENTIFIER
 
 dict_list: expression TOKEN_COLON expression TOKEN_COMMA dict_list
 {
-    // TODO
-    $$ = AstDict::make();
+    Expression* expr1 = $1;
+    Expression* expr3 = $3;
+    Expression* expr5 = $5;
+    AstDict* ast_dict = static_cast<AstDict*>(expr5);
+    vector<pair<Expression*, Expression*> > vec = ast_dict->get_vec();
+    vec.insert(vec.begin(), make_pair(expr1, expr3));
+    AstDict* new_dict = AstDict::make(vec);
+    vector<pair<Expression*, Expression*> > final_vec = new_dict->get_vec();
+    $$ = new_dict;
 }
-| expression TOKEN_COLON expression TOKEN_COMMA  expression
+| expression TOKEN_COLON expression TOKEN_COMMA expression TOKEN_COLON expression
 {
     // for nested dicts
-    // TODO
-    $$ = AstDict::make();
+    Expression* expr1 = $1;
+    Expression* expr3 = $3;
+    Expression* expr5 = $5;
+    Expression* expr7 = $7;
+    vector<pair<Expression*, Expression*> > vec;
+    vec.push_back(make_pair(expr1, expr3));
+    vec.push_back(make_pair(expr5, expr7));
+    $$ = AstDict::make(vec);
 }
-| expression TOKEN_COMMA expression
+| expression TOKEN_COLON expression
 {
     Expression* expr1 = $1;
     Expression* expr3 = $3;

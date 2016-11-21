@@ -1,4 +1,5 @@
 #include "AstDict.h"
+#include "AstString.h"
 
 AstDict* AstDict::make(string str, Expression* expr)
 {
@@ -19,8 +20,11 @@ AstDict* AstDict::make(unordered_map<string, Expression*>& in_map)
 AstDict* AstDict::make(vector<pair<Expression*, Expression*> >& vec)
 {
     // constructor used by the parser, with un-evaluated expressions
-    AstDict* dict = new AstDict(vec);
-    Expression* res = get_exp(dict);
+    cout << "In the constructor" << endl;
+    cout << vec.size() << endl;
+    vector<pair<Expression*, Expression*> > copy = vec;
+    AstDict* d = new AstDict(copy);
+    Expression* res = get_exp(d);
     assert(res->get_type() == AST_DICT);
     return static_cast<AstDict*>(res);
 }
@@ -62,11 +66,21 @@ AstDict::AstDict()
 
 void AstDict::compute_hash()
 {
-    this->hash_c = 0;
+    this->hash_c = 8990;
+    for (auto it : vec)
+    {
+        Expression* e1 = it.first;
+        this->hash_c += e1->get_hash();
+        Expression* e2 = it.second;
+        this->hash_c += e2->get_hash();
+    }
     for (auto it : dict)
     {
-        Expression* e = it.second;
-        this->hash_c += e->get_hash();
+        string s = it.first;
+        this->hash_c += 494+s.size() + (s.size()>0? s[0]:0)+
+  		        (s.size()>1? s[1]:0) + (s.size()>2? s[2]:0);
+        Expression* e2 = it.second;
+        this->hash_c += e2->get_hash();
     }
     this->hash_c *= 9;
 }
@@ -86,12 +100,12 @@ string AstDict::to_string(int d)
 string AstDict::to_value()
 {
     string res = "{";
-    for (unordered_map<string, Expression*>::iterator it = dict.begin(); it != dict.end(); it++)
+    for (unordered_map<string, Expression*>::iterator it = dict.begin(); it != dict.end();)
     {
         res += it->first;
         res += ": ";
         res += it->second->to_value();
-        if (it != dict.end()) res += ", ";
+        if (++it != dict.end()) res += ", ";
     }
     res += "}";
     return res;
@@ -118,7 +132,7 @@ bool AstDict::raw()
     return vec.size() > 0;
 }
 
-vector<pair<Expression*, Expression*> >& AstDict::get_vec()
+const vector<pair<Expression*, Expression*> >& AstDict::get_vec()
 {
     return vec;
 }
