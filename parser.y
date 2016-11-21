@@ -60,6 +60,8 @@ TOKEN_LPAREN
 TOKEN_RPAREN 
 TOKEN_LBRACKET
 TOKEN_RBRACKET
+TOKEN_LCURLY
+TOKEN_RCURLY
 TOKEN_AND 
 TOKEN_OR 
 TOKEN_EQ 
@@ -79,6 +81,7 @@ TOKEN_ERROR
 TOKEN_IN
 TOKEN_FLOAT
 TOKEN_LEN
+TOKEN_COLON;
 
 
 
@@ -238,7 +241,7 @@ expression: TOKEN_INT
 }
 | TOKEN_LBRACKET TOKEN_RBRACKET
 {
-  $$ = AstArray::make();
+    $$ = AstArray::make();
 }
 | TOKEN_LPAREN expression_list TOKEN_RPAREN 
 {
@@ -246,7 +249,11 @@ expression: TOKEN_INT
 }
 | TOKEN_LBRACKET array_list TOKEN_RBRACKET
 {
-  $$ = $2;
+    $$ = $2;
+}
+| TOKEN_LCURLY dict_list TOKEN_RCURLY
+{
+    $$ = $2;
 }
 | TOKEN_ERROR 
 {
@@ -265,6 +272,25 @@ identifier: TOKEN_IDENTIFIER
   	$$ =  AstIdentifier::make(lexeme);
 }
 
+dict_list: expression TOKEN_COLON expression TOKEN_COMMA dict_list
+{
+    // TODO
+    $$ = AstDict::make();
+}
+| expression TOKEN_COLON expression TOKEN_COMMA  expression
+{
+    // for nested dicts
+    // TODO
+    $$ = AstDict::make();
+}
+| expression TOKEN_COMMA expression
+{
+    Expression* expr1 = $1;
+    Expression* expr3 = $3;
+    vector<pair<Expression*, Expression*> > vec;
+    vec.push_back(make_pair(expr1, expr3));
+    $$ = AstDict::make(vec);
+}
 
 array_list: expression TOKEN_COMMA array_list
 {

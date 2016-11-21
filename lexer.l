@@ -140,6 +140,10 @@ RCOM [*)]
     return TOKEN_CONS;
 }
 
+":" {
+    return TOKEN_COLON;
+}
+
 (?i:nil) {
     return TOKEN_NIL;
 }
@@ -185,6 +189,14 @@ RCOM [*)]
 
 "]" {
     return TOKEN_RBRACKET;
+}
+
+"{" {
+    return TOKEN_LCURLY;
+}
+
+"}" {
+    return TOKEN_RCURLY;
 }
 
 "&" {
