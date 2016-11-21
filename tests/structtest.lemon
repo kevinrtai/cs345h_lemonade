@@ -12,4 +12,8 @@ let _ = print "String:" in
 let _ = print string in
 let _ = print (len string) in
 let _ = print (string 1) in
-0
+let newDict = dict + "d"@66 in
+let _ = print newDict in
+let finalDict = (newDict del "b") in
+print finalDict
+

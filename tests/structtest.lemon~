@@ -7,9 +7,10 @@ let string = "hello world" in
 let _ = print "Dict:" in
 let _ = print dict in
 let _ = print (len dict) in
-let _ = print (dict "e") in
+let _ = print (dict "a") in
 let _ = print "String:" in
 let _ = print string in
 let _ = print (len string) in
 let _ = print (string 1) in
-0
+let newDict = dict + "d"@66 in
+print newDict

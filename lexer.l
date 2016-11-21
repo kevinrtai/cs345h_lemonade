@@ -128,6 +128,10 @@ RCOM [*)]
     return TOKEN_LEN;
 }
 
+(?i:del) {
+    return TOKEN_DEL;
+}
+
 "!" {
     return TOKEN_HD;
 }

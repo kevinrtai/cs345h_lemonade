@@ -85,8 +85,9 @@ Expression* Evaluator::eval_unop(AstUnOp* b)
             report_error(e, "len can only be applied to arrays");
         }
     }
-      //add code to deal with all the other unops
-      assert(false);
+
+    //add code to deal with all the other unops
+    assert(false);
 }
 
 
@@ -231,7 +232,35 @@ Expression* Evaluator::eval_binop (AstBinOp* b) {
     		firstVec.push_back(second);
     		return AstArray::make(firstVec);
     	}
+    } else if (first->get_type() == AST_DICT && b->get_binop_type() == PLUS) {
+        AstDict* dict = static_cast<AstDict*>(first);
+        if (second->get_type() != AST_LIST) {
+            report_error(b, "Only a list tuple of key value can be appended to dict");
+        }
+        AstList* tuple = static_cast<AstList*>(second);
+        Expression* hd = tuple->get_hd();
+        Expression* tl = tuple->get_tl();
+        if (hd->get_type() != AST_STRING) {
+            report_error(b, "Dict key must be string");
+        }
+        AstString* astString = static_cast<AstString*>(hd);
+        unordered_map<string, Expression*> m = dict->get_dict();
+        m.insert(make_pair(astString->get_string(), tl));
+        return AstDict::make(m);
 
+    } else if (first->get_type() == AST_DICT && b->get_binop_type() == DEL) {
+        AstDict* dict = static_cast<AstDict*>(first);
+        if (second->get_type() != AST_STRING) {
+            report_error(b, "Dict key must be string");
+        }
+        AstString* astString = static_cast<AstString*>(second);
+        string str = astString->get_string();
+        if (!dict->contains(str)) {
+            report_error(b, "Dict key not present");
+        }
+        unordered_map<string, Expression*> m = dict->get_dict();
+        m.erase(str);
+        return AstDict::make(m);
 
 	} else if (first->get_type() == AST_STRING && second->get_type() == AST_STRING) {
 		string str1 = static_cast<AstString*>(first)->get_string();

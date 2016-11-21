@@ -87,8 +87,9 @@ extern int yydebug;
     TOKEN_IN = 297,
     TOKEN_FLOAT = 298,
     TOKEN_LEN = 299,
-    TOKEN_COLON = 300,
-    EXPR = 301
+    TOKEN_DEL = 300,
+    TOKEN_COLON = 301,
+    EXPR = 302
   };
 #endif
 

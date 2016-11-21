@@ -81,13 +81,14 @@ TOKEN_ERROR
 TOKEN_IN
 TOKEN_FLOAT
 TOKEN_LEN
+TOKEN_DEL
 TOKEN_COLON;
 
 
 
 %nonassoc EXPR
 %nonassoc TOKEN_PRINT TOKEN_LEN
-%left TOKEN_COLON
+%left TOKEN_COLON TOKEN_DEL
 %left TOKEN_EQ TOKEN_NEQ TOKEN_LT TOKEN_GT TOKEN_GEQ TOKEN_LEQ
 %left TOKEN_AND TOKEN_OR
 %left TOKEN_PLUS TOKEN_MINUS
@@ -175,6 +176,10 @@ expression: TOKEN_INT
 | TOKEN_LEN expression
 {
     $$ = AstUnOp::make(LEN, $2);
+}
+| expression TOKEN_DEL expression
+{
+    $$ = AstBinOp::make(DEL, $1, $3);
 }
 | expression TOKEN_EQ expression
 {

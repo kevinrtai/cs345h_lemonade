@@ -81,13 +81,14 @@ TOKEN_ERROR
 TOKEN_IN
 TOKEN_FLOAT
 TOKEN_LEN
+TOKEN_DEL
 TOKEN_COLON;
 
 
 
 %nonassoc EXPR
 %nonassoc TOKEN_PRINT TOKEN_LEN
-%left TOKEN_COLON
+%left TOKEN_COLON TOKEN_DEL
 %left TOKEN_EQ TOKEN_NEQ TOKEN_LT TOKEN_GT TOKEN_GEQ TOKEN_LEQ
 %left TOKEN_AND TOKEN_OR
 %left TOKEN_PLUS TOKEN_MINUS
@@ -175,6 +176,10 @@ expression: TOKEN_INT
 | TOKEN_LEN expression
 {
     $$ = AstUnOp::make(LEN, $2);
+}
+| TOKEN_DEL expression
+{
+    $$ = AstUnOp::make(DEL, $2);
 }
 | expression TOKEN_EQ expression
 {
@@ -283,7 +288,6 @@ dict_list: expression TOKEN_COLON expression TOKEN_COMMA dict_list
     vec.insert(vec.begin(), make_pair(expr1, expr3));
     AstDict* new_dict = AstDict::make(vec);
     vector<pair<Expression*, Expression*> > final_vec = new_dict->get_vec();
-    printf("%d\n", final_vec.size());
     $$ = new_dict;
 }
 | expression TOKEN_COLON expression TOKEN_COMMA expression TOKEN_COLON expression
