@@ -30,13 +30,22 @@ void report_error(Expression* e, const string & s)
 
 }
 
+Evaluator::Evaluator() : Evaluator(false) {
+}
 
-
-Evaluator::Evaluator()
+Evaluator::Evaluator(bool isLib)
 {
 	sym_tab.push();
 	c = 0;
+    isLib = isLib;
+}
 
+Evaluator::Evaluator(bool isLib, map<string, SymbolTable*>* maps)
+{
+    sym_tab.push();
+    c = 0;
+    isLib = isLib;
+    lib_maps = maps;
 }
 
 Expression* Evaluator::eval_unop(AstUnOp* b)
@@ -227,7 +236,9 @@ Expression* Evaluator::eval(Expression* e)
 		sym_tab.push();
 		sym_tab.add(id, eval(val));
 		res_exp = eval(body);
-		sym_tab.pop();
+        if (!isLib) {
+            sym_tab.pop();
+        }
 		break;
 	}
 	case AST_IDENTIFIER:
@@ -274,4 +285,9 @@ Expression* Evaluator::eval(Expression* e)
 
 	}
 	return res_exp;
+}
+
+SymbolTable* Evaluator::get_sym_tab()
+{
+    return &sym_tab;
 }
