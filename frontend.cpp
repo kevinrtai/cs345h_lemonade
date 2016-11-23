@@ -201,5 +201,4 @@ int main(int argc, char** argv)
 	    Expression* res = e->eval(res_expr);
 	    cout << res->to_value()<< endl;
     }
-
 }
