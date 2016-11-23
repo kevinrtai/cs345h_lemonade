@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g -Wall -std=c++0x
+CFLAGS = -g -std=c++0x
 INC=-. ./ast
 INC_PARAMS=$(foreach d, $(INC), -I$d)
 
