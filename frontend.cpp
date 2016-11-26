@@ -78,10 +78,8 @@ SymbolTable* readLib(string word) {
         string word;
 
         while (iss >> word && import) {
-            // cout << word << endl;
             if (word == "give-me") {
                 iss >> word;
-                // res += readLib(word);
                 map<string, SymbolTable*>::iterator it = sym_tab_map->begin();
                 sym_tab_map->insert(it, pair<string, SymbolTable*>(word, readLib(word)));
                 temp.erase(0, 8); // remove word
@@ -104,8 +102,6 @@ SymbolTable* readLib(string word) {
 	    e->eval(res_expr);
         table = e->get_sym_tab();
     }
-    // table->print_contents();
-    // cout << filename << endl;
     return table;
 }
 
@@ -145,12 +141,9 @@ int main(int argc, char** argv)
         std::istringstream iss(temp);
         string word;
         while (iss >> word && import) {
-            // cout << word << endl;
             if (word == "give-me") {
                 iss >> word;
-                // res += readLib(word);
                 map<string, SymbolTable*>::iterator it = sym_tab_map->begin();
-                cout << word << endl;
                 sym_tab_map->insert(it, pair<string, SymbolTable*>(word, readLib(word)));
                 temp.erase(0, 8); // remove word
                 temp.erase(0, word.length() + 1); // remove next word
@@ -162,7 +155,6 @@ int main(int argc, char** argv)
         }
         res+=temp;
     }
-    // cout << res;
     parse(res, report_error);
   
     if(print_ast && res_expr != NULL) {
