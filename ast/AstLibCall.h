@@ -8,14 +8,14 @@
 class AstLibCall:public Expression
 {
 private:
-  AstIdentifier* libName;
+  string libName;
   AstIdentifier* func;
-  AstLibCall(AstIdentifier* lib, AstIdentifier* func);
+  AstLibCall(string lib, AstIdentifier* func);
 public:
-  static AstLibCall* make(AstIdentifier* libName, AstIdentifier* formal);
+  static AstLibCall* make(string libName, AstIdentifier* formal);
   virtual string to_string(int d = 0);
   AstIdentifier* get_func();
-  AstIdentifier* get_lib();
+  string get_lib();
   virtual Expression* substitute(Expression* e1,
 	        		  Expression* e2);
   virtual bool operator==(const Expression& other);

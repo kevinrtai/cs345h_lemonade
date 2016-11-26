@@ -1,14 +1,14 @@
 #include "AstLibCall.h"
 
-AstLibCall::AstLibCall(AstIdentifier* libName, AstIdentifier* func)
+AstLibCall::AstLibCall(string libName, AstIdentifier* func)
 {
 	this->et = AST_LIBCALL;
     this->libName = libName;
     this->func = func;
-    this->hash_c = 997 + libName->to_string().size() + func->to_string().size();
+    this->hash_c = 997 + libName.size() + func->to_string().size();
 }
 
-AstLibCall* AstLibCall::make(AstIdentifier* libName, AstIdentifier* func)
+AstLibCall* AstLibCall::make(string libName, AstIdentifier* func)
 {
 	AstLibCall* lc = new AstLibCall(libName, func);
 	Expression* res = get_exp(lc);
@@ -18,7 +18,7 @@ AstLibCall* AstLibCall::make(AstIdentifier* libName, AstIdentifier* func)
 
 string AstLibCall::to_string(int d)
 {
-    return get_depth(d) + this->libName->to_string() + "." + this->func->to_string() + "\n";
+    return get_depth(d) + this->libName + "." + this->func->to_string() + "\n";
 }
 
 AstIdentifier* AstLibCall::get_func()
@@ -26,7 +26,7 @@ AstIdentifier* AstLibCall::get_func()
     return this->func;
 }
 
-AstIdentifier* AstLibCall::get_lib()
+string AstLibCall::get_lib()
 {
     return this->libName;
 }

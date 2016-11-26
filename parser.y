@@ -275,9 +275,9 @@ expression: TOKEN_INT
    YYERROR;
 }
 
-libcall: identifier TOKEN_DOT identifier 
+libcall: TOKEN_IDENTIFIER TOKEN_DOT identifier 
 {
-  AstIdentifier* lib = static_cast<AstIdentifier*>($1);
+  string lib = GET_LEXEME($1);
   AstIdentifier* func = static_cast<AstIdentifier*>($3);
   $$ = AstLibCall::make(lib, func);
 }

@@ -8,6 +8,8 @@ using namespace std;
 
 int yylex();
 int yyparse();
+string FILEPATH = "libs/";
+
 extern int yy_scan_string(const char* c);
 map<string, SymbolTable*>* sym_tab_map = new map<string, SymbolTable*>();
 
@@ -68,7 +70,7 @@ void report_error(string c)
 
 SymbolTable* readLib(string word) {
     string filename = word + ".cookie";
-    ifstream file(filename.c_str());
+    ifstream file(FILEPATH + filename.c_str());
     if(!file.is_open()) {
         cout << "File \"" << filename << "\" cannot be opened." << endl;
         return NULL;
@@ -88,7 +90,7 @@ SymbolTable* readLib(string word) {
         string word;
 
         while (iss >> word && import) {
-            cout << word << endl;
+            // cout << word << endl;
             if (word == "give-me") {
                 iss >> word;
                 // res += readLib(word);
@@ -114,6 +116,8 @@ SymbolTable* readLib(string word) {
 	    e->eval(res_expr);
         table = e->get_sym_tab();
     }
+    // table->print_contents();
+    // cout << filename << endl;
     return table;
 }
 
@@ -153,11 +157,12 @@ int main(int argc, char** argv)
         std::istringstream iss(temp);
         string word;
         while (iss >> word && import) {
-            cout << word << endl;
+            // cout << word << endl;
             if (word == "give-me") {
                 iss >> word;
                 // res += readLib(word);
                 map<string, SymbolTable*>::iterator it = sym_tab_map->begin();
+                cout << word << endl;
                 sym_tab_map->insert(it, pair<string, SymbolTable*>(word, readLib(word)));
                 temp.erase(0, 8); // remove word
                 temp.erase(0, word.length() + 1); // remove next word
@@ -178,7 +183,7 @@ int main(int argc, char** argv)
     }
 
     if(res_expr != NULL) {
-	    Evaluator* e = new Evaluator(true, sym_tab_map);
+	    Evaluator* e = new Evaluator(false, sym_tab_map);
 	    Expression* res = e->eval(res_expr);
 	    cout << res->to_value()<< endl;
     }
