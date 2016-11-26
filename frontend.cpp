@@ -66,25 +66,6 @@ void report_error(string c)
   
 }
 
-/* string readLib(string libName) {
-    string buff = "";
-    libName += ".cookie";
-    ifstream file(libName.c_str());
-    if (!file.is_open()) {
-        cout << "Library \"" << libName << " cannot be opened." << endl;
-        return "";
-    }
-    bool first = true;
-    while (!file.eof()) {
-        if (first) buff += "\n";
-        first = false;
-        string temp;
-        std::getline(file, temp);
-        // cout << temp;
-        buff += temp + " ";
-    }
-    return buff;
-}*/
 SymbolTable* readLib(string word) {
     string filename = word + ".cookie";
     ifstream file(filename.c_str());

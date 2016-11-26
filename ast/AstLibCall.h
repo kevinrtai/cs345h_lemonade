@@ -10,17 +10,15 @@ class AstLibCall:public Expression
 private:
   AstIdentifier* libName;
   AstIdentifier* func;
-  Expression* body;
-  AstLibCall(AstIdentifier* lib, AstIdentifier* func, Expression* body);
+  AstLibCall(AstIdentifier* lib, AstIdentifier* func);
 public:
-  static AstLibCall* make(AstIdentifier* libName, AstIdentifier* formal, Expression* body);
+  static AstLibCall* make(AstIdentifier* libName, AstIdentifier* formal);
   virtual string to_string(int d = 0);
-  Expression* get_body();
   AstIdentifier* get_func();
   AstIdentifier* get_lib();
+  virtual Expression* substitute(Expression* e1,
+	        		  Expression* e2);
   virtual bool operator==(const Expression& other);
-  
-  
 };
  
  

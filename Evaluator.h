@@ -3,6 +3,7 @@
 #ifndef EVALUATOR_H_
 #define EVALUATOR_H_
 
+#include <stack>
 class Expression;
 class AstBinOp;
 class AstUnOp;
@@ -11,7 +12,8 @@ class AstExpressionList;
 
 class Evaluator {
 private:
-	SymbolTable sym_tab;
+	SymbolTable* sym_tab;
+	stack<SymbolTable*>* sym_tab_stack;
     bool isLib;
     map<string, SymbolTable*>* lib_maps;
 	int c;
