@@ -3,7 +3,7 @@ Terminals unused in grammar
    TOKEN_LIBCALL
 
 
-State 48 conflicts: 1 reduce/reduce
+State 50 conflicts: 1 reduce/reduce
 
 
 Grammar
@@ -43,7 +43,7 @@ Grammar
    30           | TOKEN_LPAREN expression_list TOKEN_RPAREN
    31           | TOKEN_ERROR
 
-   32 libcall: identifier TOKEN_DOT identifier
+   32 libcall: TOKEN_IDENTIFIER TOKEN_DOT identifier
 
    33 identifier: TOKEN_IDENTIFIER
 
@@ -72,7 +72,7 @@ TOKEN_WITH (267) 8
 TOKEN_LET (268) 6
 TOKEN_PLUS (269) 22
 TOKEN_MINUS (270) 23
-TOKEN_IDENTIFIER (271) 33
+TOKEN_IDENTIFIER (271) 32 33
 TOKEN_TIMES (272) 24
 TOKEN_DIVIDE (273) 25
 TOKEN_INT (274) 2
@@ -275,14 +275,17 @@ State 8
 
     6 expression: TOKEN_LET . identifier TOKEN_EQ expression TOKEN_IN expression
 
-    TOKEN_IDENTIFIER  shift, and go to state 9
+    TOKEN_IDENTIFIER  shift, and go to state 25
 
-    identifier  go to state 25
+    identifier  go to state 26
 
 
 State 9
 
+   32 libcall: TOKEN_IDENTIFIER . TOKEN_DOT identifier
    33 identifier: TOKEN_IDENTIFIER .
+
+    TOKEN_DOT  shift, and go to state 27
 
     $default  reduce using rule 33 (identifier)
 
@@ -315,10 +318,10 @@ State 11
     TOKEN_STRING      shift, and go to state 15
     TOKEN_ERROR       shift, and go to state 16
 
-    expression       go to state 26
+    expression       go to state 28
     libcall          go to state 19
     identifier       go to state 20
-    expression_list  go to state 27
+    expression_list  go to state 29
 
 
 State 12
@@ -342,7 +345,7 @@ State 12
     TOKEN_STRING      shift, and go to state 15
     TOKEN_ERROR       shift, and go to state 16
 
-    expression  go to state 28
+    expression  go to state 30
     libcall     go to state 19
     identifier  go to state 20
 
@@ -351,19 +354,19 @@ State 13
 
     7 expression: TOKEN_LAMBDA . identifier_list TOKEN_DOT expression
 
-    TOKEN_IDENTIFIER  shift, and go to state 9
+    TOKEN_IDENTIFIER  shift, and go to state 25
 
-    identifier       go to state 29
-    identifier_list  go to state 30
+    identifier       go to state 31
+    identifier_list  go to state 32
 
 
 State 14
 
     8 expression: TOKEN_FUN . identifier TOKEN_WITH identifier_list TOKEN_EQ expression TOKEN_IN expression
 
-    TOKEN_IDENTIFIER  shift, and go to state 9
+    TOKEN_IDENTIFIER  shift, and go to state 25
 
-    identifier  go to state 31
+    identifier  go to state 33
 
 
 State 15
@@ -384,7 +387,7 @@ State 17
 
     0 $accept: program . $end
 
-    $end  shift, and go to state 32
+    $end  shift, and go to state 34
 
 
 State 18
@@ -404,19 +407,19 @@ State 18
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
-    TOKEN_EQ      shift, and go to state 40
-    TOKEN_NEQ     shift, and go to state 41
-    TOKEN_GT      shift, and go to state 42
-    TOKEN_GEQ     shift, and go to state 43
-    TOKEN_LT      shift, and go to state 44
-    TOKEN_LEQ     shift, and go to state 45
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
+    TOKEN_EQ      shift, and go to state 42
+    TOKEN_NEQ     shift, and go to state 43
+    TOKEN_GT      shift, and go to state 44
+    TOKEN_GEQ     shift, and go to state 45
+    TOKEN_LT      shift, and go to state 46
+    TOKEN_LEQ     shift, and go to state 47
 
     $default  reduce using rule 1 (program)
 
@@ -431,9 +434,6 @@ State 19
 State 20
 
     5 expression: identifier .
-   32 libcall: identifier . TOKEN_DOT identifier
-
-    TOKEN_DOT  shift, and go to state 46
 
     $default  reduce using rule 5 (expression)
 
@@ -455,19 +455,19 @@ State 21
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
-    TOKEN_EQ      shift, and go to state 40
-    TOKEN_NEQ     shift, and go to state 41
-    TOKEN_GT      shift, and go to state 42
-    TOKEN_GEQ     shift, and go to state 43
-    TOKEN_LT      shift, and go to state 44
-    TOKEN_LEQ     shift, and go to state 45
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
+    TOKEN_EQ      shift, and go to state 42
+    TOKEN_NEQ     shift, and go to state 43
+    TOKEN_GT      shift, and go to state 44
+    TOKEN_GEQ     shift, and go to state 45
+    TOKEN_LT      shift, and go to state 46
+    TOKEN_LEQ     shift, and go to state 47
 
     $default  reduce using rule 13 (expression)
 
@@ -489,7 +489,7 @@ State 22
    26           | TOKEN_ISNIL expression .
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS  shift, and go to state 33
+    TOKEN_CONS  shift, and go to state 35
 
     $default  reduce using rule 26 (expression)
 
@@ -536,12 +536,28 @@ State 24
 
 State 25
 
-    6 expression: TOKEN_LET identifier . TOKEN_EQ expression TOKEN_IN expression
+   33 identifier: TOKEN_IDENTIFIER .
 
-    TOKEN_EQ  shift, and go to state 47
+    $default  reduce using rule 33 (identifier)
 
 
 State 26
+
+    6 expression: TOKEN_LET identifier . TOKEN_EQ expression TOKEN_IN expression
+
+    TOKEN_EQ  shift, and go to state 48
+
+
+State 27
+
+   32 libcall: TOKEN_IDENTIFIER TOKEN_DOT . identifier
+
+    TOKEN_IDENTIFIER  shift, and go to state 25
+
+    identifier  go to state 49
+
+
+State 28
 
    14 expression: expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
@@ -566,24 +582,24 @@ State 26
     TOKEN_ISNIL       shift, and go to state 4
     TOKEN_HD          shift, and go to state 5
     TOKEN_TL          shift, and go to state 6
-    TOKEN_CONS        shift, and go to state 33
+    TOKEN_CONS        shift, and go to state 35
     TOKEN_NIL         shift, and go to state 7
     TOKEN_LET         shift, and go to state 8
-    TOKEN_PLUS        shift, and go to state 34
-    TOKEN_MINUS       shift, and go to state 35
+    TOKEN_PLUS        shift, and go to state 36
+    TOKEN_MINUS       shift, and go to state 37
     TOKEN_IDENTIFIER  shift, and go to state 9
-    TOKEN_TIMES       shift, and go to state 36
-    TOKEN_DIVIDE      shift, and go to state 37
+    TOKEN_TIMES       shift, and go to state 38
+    TOKEN_DIVIDE      shift, and go to state 39
     TOKEN_INT         shift, and go to state 10
     TOKEN_LPAREN      shift, and go to state 11
-    TOKEN_AND         shift, and go to state 38
-    TOKEN_OR          shift, and go to state 39
-    TOKEN_EQ          shift, and go to state 40
-    TOKEN_NEQ         shift, and go to state 41
-    TOKEN_GT          shift, and go to state 42
-    TOKEN_GEQ         shift, and go to state 43
-    TOKEN_LT          shift, and go to state 44
-    TOKEN_LEQ         shift, and go to state 45
+    TOKEN_AND         shift, and go to state 40
+    TOKEN_OR          shift, and go to state 41
+    TOKEN_EQ          shift, and go to state 42
+    TOKEN_NEQ         shift, and go to state 43
+    TOKEN_GT          shift, and go to state 44
+    TOKEN_GEQ         shift, and go to state 45
+    TOKEN_LT          shift, and go to state 46
+    TOKEN_LEQ         shift, and go to state 47
     TOKEN_IF          shift, and go to state 12
     TOKEN_LAMBDA      shift, and go to state 13
     TOKEN_FUN         shift, and go to state 14
@@ -592,20 +608,20 @@ State 26
 
     $default  reduce using rule 36 (expression_list)
 
-    expression       go to state 48
+    expression       go to state 50
     libcall          go to state 19
     identifier       go to state 20
-    expression_list  go to state 49
+    expression_list  go to state 51
 
 
-State 27
+State 29
 
    30 expression: TOKEN_LPAREN expression_list . TOKEN_RPAREN
 
-    TOKEN_RPAREN  shift, and go to state 50
+    TOKEN_RPAREN  shift, and go to state 52
 
 
-State 28
+State 30
 
     9 expression: TOKEN_IF expression . TOKEN_THEN expression TOKEN_ELSE expression
    14           | expression . TOKEN_EQ expression
@@ -622,108 +638,56 @@ State 28
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
-    TOKEN_EQ      shift, and go to state 40
-    TOKEN_NEQ     shift, and go to state 41
-    TOKEN_GT      shift, and go to state 42
-    TOKEN_GEQ     shift, and go to state 43
-    TOKEN_LT      shift, and go to state 44
-    TOKEN_LEQ     shift, and go to state 45
-    TOKEN_THEN    shift, and go to state 51
-
-
-State 29
-
-   37 identifier_list: identifier . TOKEN_COMMA identifier_list
-   38                | identifier .
-
-    TOKEN_COMMA  shift, and go to state 52
-
-    $default  reduce using rule 38 (identifier_list)
-
-
-State 30
-
-    7 expression: TOKEN_LAMBDA identifier_list . TOKEN_DOT expression
-
-    TOKEN_DOT  shift, and go to state 53
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
+    TOKEN_EQ      shift, and go to state 42
+    TOKEN_NEQ     shift, and go to state 43
+    TOKEN_GT      shift, and go to state 44
+    TOKEN_GEQ     shift, and go to state 45
+    TOKEN_LT      shift, and go to state 46
+    TOKEN_LEQ     shift, and go to state 47
+    TOKEN_THEN    shift, and go to state 53
 
 
 State 31
 
-    8 expression: TOKEN_FUN identifier . TOKEN_WITH identifier_list TOKEN_EQ expression TOKEN_IN expression
+   37 identifier_list: identifier . TOKEN_COMMA identifier_list
+   38                | identifier .
 
-    TOKEN_WITH  shift, and go to state 54
+    TOKEN_COMMA  shift, and go to state 54
+
+    $default  reduce using rule 38 (identifier_list)
 
 
 State 32
+
+    7 expression: TOKEN_LAMBDA identifier_list . TOKEN_DOT expression
+
+    TOKEN_DOT  shift, and go to state 55
+
+
+State 33
+
+    8 expression: TOKEN_FUN identifier . TOKEN_WITH identifier_list TOKEN_EQ expression TOKEN_IN expression
+
+    TOKEN_WITH  shift, and go to state 56
+
+
+State 34
 
     0 $accept: program $end .
 
     $default  accept
 
 
-State 33
-
-   27 expression: expression TOKEN_CONS . expression
-
-    TOKEN_READSTRING  shift, and go to state 1
-    TOKEN_READINT     shift, and go to state 2
-    TOKEN_PRINT       shift, and go to state 3
-    TOKEN_ISNIL       shift, and go to state 4
-    TOKEN_HD          shift, and go to state 5
-    TOKEN_TL          shift, and go to state 6
-    TOKEN_NIL         shift, and go to state 7
-    TOKEN_LET         shift, and go to state 8
-    TOKEN_IDENTIFIER  shift, and go to state 9
-    TOKEN_INT         shift, and go to state 10
-    TOKEN_LPAREN      shift, and go to state 11
-    TOKEN_IF          shift, and go to state 12
-    TOKEN_LAMBDA      shift, and go to state 13
-    TOKEN_FUN         shift, and go to state 14
-    TOKEN_STRING      shift, and go to state 15
-    TOKEN_ERROR       shift, and go to state 16
-
-    expression  go to state 55
-    libcall     go to state 19
-    identifier  go to state 20
-
-
-State 34
-
-   22 expression: expression TOKEN_PLUS . expression
-
-    TOKEN_READSTRING  shift, and go to state 1
-    TOKEN_READINT     shift, and go to state 2
-    TOKEN_PRINT       shift, and go to state 3
-    TOKEN_ISNIL       shift, and go to state 4
-    TOKEN_HD          shift, and go to state 5
-    TOKEN_TL          shift, and go to state 6
-    TOKEN_NIL         shift, and go to state 7
-    TOKEN_LET         shift, and go to state 8
-    TOKEN_IDENTIFIER  shift, and go to state 9
-    TOKEN_INT         shift, and go to state 10
-    TOKEN_LPAREN      shift, and go to state 11
-    TOKEN_IF          shift, and go to state 12
-    TOKEN_LAMBDA      shift, and go to state 13
-    TOKEN_FUN         shift, and go to state 14
-    TOKEN_STRING      shift, and go to state 15
-    TOKEN_ERROR       shift, and go to state 16
-
-    expression  go to state 56
-    libcall     go to state 19
-    identifier  go to state 20
-
-
 State 35
 
-   23 expression: expression TOKEN_MINUS . expression
+   27 expression: expression TOKEN_CONS . expression
 
     TOKEN_READSTRING  shift, and go to state 1
     TOKEN_READINT     shift, and go to state 2
@@ -749,7 +713,7 @@ State 35
 
 State 36
 
-   24 expression: expression TOKEN_TIMES . expression
+   22 expression: expression TOKEN_PLUS . expression
 
     TOKEN_READSTRING  shift, and go to state 1
     TOKEN_READINT     shift, and go to state 2
@@ -775,7 +739,7 @@ State 36
 
 State 37
 
-   25 expression: expression TOKEN_DIVIDE . expression
+   23 expression: expression TOKEN_MINUS . expression
 
     TOKEN_READSTRING  shift, and go to state 1
     TOKEN_READINT     shift, and go to state 2
@@ -801,7 +765,7 @@ State 37
 
 State 38
 
-   21 expression: expression TOKEN_AND . expression
+   24 expression: expression TOKEN_TIMES . expression
 
     TOKEN_READSTRING  shift, and go to state 1
     TOKEN_READINT     shift, and go to state 2
@@ -827,7 +791,7 @@ State 38
 
 State 39
 
-   20 expression: expression TOKEN_OR . expression
+   25 expression: expression TOKEN_DIVIDE . expression
 
     TOKEN_READSTRING  shift, and go to state 1
     TOKEN_READINT     shift, and go to state 2
@@ -853,7 +817,7 @@ State 39
 
 State 40
 
-   14 expression: expression TOKEN_EQ . expression
+   21 expression: expression TOKEN_AND . expression
 
     TOKEN_READSTRING  shift, and go to state 1
     TOKEN_READINT     shift, and go to state 2
@@ -879,7 +843,7 @@ State 40
 
 State 41
 
-   15 expression: expression TOKEN_NEQ . expression
+   20 expression: expression TOKEN_OR . expression
 
     TOKEN_READSTRING  shift, and go to state 1
     TOKEN_READINT     shift, and go to state 2
@@ -905,7 +869,7 @@ State 41
 
 State 42
 
-   17 expression: expression TOKEN_GT . expression
+   14 expression: expression TOKEN_EQ . expression
 
     TOKEN_READSTRING  shift, and go to state 1
     TOKEN_READINT     shift, and go to state 2
@@ -931,7 +895,7 @@ State 42
 
 State 43
 
-   18 expression: expression TOKEN_GEQ . expression
+   15 expression: expression TOKEN_NEQ . expression
 
     TOKEN_READSTRING  shift, and go to state 1
     TOKEN_READINT     shift, and go to state 2
@@ -957,7 +921,7 @@ State 43
 
 State 44
 
-   16 expression: expression TOKEN_LT . expression
+   17 expression: expression TOKEN_GT . expression
 
     TOKEN_READSTRING  shift, and go to state 1
     TOKEN_READINT     shift, and go to state 2
@@ -983,7 +947,7 @@ State 44
 
 State 45
 
-   19 expression: expression TOKEN_LEQ . expression
+   18 expression: expression TOKEN_GEQ . expression
 
     TOKEN_READSTRING  shift, and go to state 1
     TOKEN_READINT     shift, and go to state 2
@@ -1009,16 +973,33 @@ State 45
 
 State 46
 
-   32 libcall: identifier TOKEN_DOT . identifier
+   16 expression: expression TOKEN_LT . expression
 
+    TOKEN_READSTRING  shift, and go to state 1
+    TOKEN_READINT     shift, and go to state 2
+    TOKEN_PRINT       shift, and go to state 3
+    TOKEN_ISNIL       shift, and go to state 4
+    TOKEN_HD          shift, and go to state 5
+    TOKEN_TL          shift, and go to state 6
+    TOKEN_NIL         shift, and go to state 7
+    TOKEN_LET         shift, and go to state 8
     TOKEN_IDENTIFIER  shift, and go to state 9
+    TOKEN_INT         shift, and go to state 10
+    TOKEN_LPAREN      shift, and go to state 11
+    TOKEN_IF          shift, and go to state 12
+    TOKEN_LAMBDA      shift, and go to state 13
+    TOKEN_FUN         shift, and go to state 14
+    TOKEN_STRING      shift, and go to state 15
+    TOKEN_ERROR       shift, and go to state 16
 
-    identifier  go to state 68
+    expression  go to state 68
+    libcall     go to state 19
+    identifier  go to state 20
 
 
 State 47
 
-    6 expression: TOKEN_LET identifier TOKEN_EQ . expression TOKEN_IN expression
+   19 expression: expression TOKEN_LEQ . expression
 
     TOKEN_READSTRING  shift, and go to state 1
     TOKEN_READINT     shift, and go to state 2
@@ -1044,6 +1025,39 @@ State 47
 
 State 48
 
+    6 expression: TOKEN_LET identifier TOKEN_EQ . expression TOKEN_IN expression
+
+    TOKEN_READSTRING  shift, and go to state 1
+    TOKEN_READINT     shift, and go to state 2
+    TOKEN_PRINT       shift, and go to state 3
+    TOKEN_ISNIL       shift, and go to state 4
+    TOKEN_HD          shift, and go to state 5
+    TOKEN_TL          shift, and go to state 6
+    TOKEN_NIL         shift, and go to state 7
+    TOKEN_LET         shift, and go to state 8
+    TOKEN_IDENTIFIER  shift, and go to state 9
+    TOKEN_INT         shift, and go to state 10
+    TOKEN_LPAREN      shift, and go to state 11
+    TOKEN_IF          shift, and go to state 12
+    TOKEN_LAMBDA      shift, and go to state 13
+    TOKEN_FUN         shift, and go to state 14
+    TOKEN_STRING      shift, and go to state 15
+    TOKEN_ERROR       shift, and go to state 16
+
+    expression  go to state 70
+    libcall     go to state 19
+    identifier  go to state 20
+
+
+State 49
+
+   32 libcall: TOKEN_IDENTIFIER TOKEN_DOT identifier .
+
+    $default  reduce using rule 32 (libcall)
+
+
+State 50
+
    14 expression: expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
    16           | expression . TOKEN_LT expression
@@ -1068,24 +1082,24 @@ State 48
     TOKEN_ISNIL       shift, and go to state 4
     TOKEN_HD          shift, and go to state 5
     TOKEN_TL          shift, and go to state 6
-    TOKEN_CONS        shift, and go to state 33
+    TOKEN_CONS        shift, and go to state 35
     TOKEN_NIL         shift, and go to state 7
     TOKEN_LET         shift, and go to state 8
-    TOKEN_PLUS        shift, and go to state 34
-    TOKEN_MINUS       shift, and go to state 35
+    TOKEN_PLUS        shift, and go to state 36
+    TOKEN_MINUS       shift, and go to state 37
     TOKEN_IDENTIFIER  shift, and go to state 9
-    TOKEN_TIMES       shift, and go to state 36
-    TOKEN_DIVIDE      shift, and go to state 37
+    TOKEN_TIMES       shift, and go to state 38
+    TOKEN_DIVIDE      shift, and go to state 39
     TOKEN_INT         shift, and go to state 10
     TOKEN_LPAREN      shift, and go to state 11
-    TOKEN_AND         shift, and go to state 38
-    TOKEN_OR          shift, and go to state 39
-    TOKEN_EQ          shift, and go to state 40
-    TOKEN_NEQ         shift, and go to state 41
-    TOKEN_GT          shift, and go to state 42
-    TOKEN_GEQ         shift, and go to state 43
-    TOKEN_LT          shift, and go to state 44
-    TOKEN_LEQ         shift, and go to state 45
+    TOKEN_AND         shift, and go to state 40
+    TOKEN_OR          shift, and go to state 41
+    TOKEN_EQ          shift, and go to state 42
+    TOKEN_NEQ         shift, and go to state 43
+    TOKEN_GT          shift, and go to state 44
+    TOKEN_GEQ         shift, and go to state 45
+    TOKEN_LT          shift, and go to state 46
+    TOKEN_LEQ         shift, and go to state 47
     TOKEN_IF          shift, and go to state 12
     TOKEN_LAMBDA      shift, and go to state 13
     TOKEN_FUN         shift, and go to state 14
@@ -1096,27 +1110,27 @@ State 48
     TOKEN_RPAREN  [reduce using rule 36 (expression_list)]
     $default      reduce using rule 35 (expression_list)
 
-    expression       go to state 48
+    expression       go to state 50
     libcall          go to state 19
     identifier       go to state 20
-    expression_list  go to state 49
+    expression_list  go to state 51
 
 
-State 49
+State 51
 
    34 expression_list: expression expression_list .
 
     $default  reduce using rule 34 (expression_list)
 
 
-State 50
+State 52
 
    30 expression: TOKEN_LPAREN expression_list TOKEN_RPAREN .
 
     $default  reduce using rule 30 (expression)
 
 
-State 51
+State 53
 
     9 expression: TOKEN_IF expression TOKEN_THEN . expression TOKEN_ELSE expression
 
@@ -1137,22 +1151,22 @@ State 51
     TOKEN_STRING      shift, and go to state 15
     TOKEN_ERROR       shift, and go to state 16
 
-    expression  go to state 70
+    expression  go to state 71
     libcall     go to state 19
     identifier  go to state 20
 
 
-State 52
+State 54
 
    37 identifier_list: identifier TOKEN_COMMA . identifier_list
 
-    TOKEN_IDENTIFIER  shift, and go to state 9
+    TOKEN_IDENTIFIER  shift, and go to state 25
 
-    identifier       go to state 29
-    identifier_list  go to state 71
+    identifier       go to state 31
+    identifier_list  go to state 72
 
 
-State 53
+State 55
 
     7 expression: TOKEN_LAMBDA identifier_list TOKEN_DOT . expression
 
@@ -1173,22 +1187,22 @@ State 53
     TOKEN_STRING      shift, and go to state 15
     TOKEN_ERROR       shift, and go to state 16
 
-    expression  go to state 72
+    expression  go to state 73
     libcall     go to state 19
     identifier  go to state 20
 
 
-State 54
+State 56
 
     8 expression: TOKEN_FUN identifier TOKEN_WITH . identifier_list TOKEN_EQ expression TOKEN_IN expression
 
-    TOKEN_IDENTIFIER  shift, and go to state 9
+    TOKEN_IDENTIFIER  shift, and go to state 25
 
-    identifier       go to state 29
-    identifier_list  go to state 73
+    identifier       go to state 31
+    identifier_list  go to state 74
 
 
-State 55
+State 57
 
    14 expression: expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
@@ -1205,12 +1219,12 @@ State 55
    27           | expression . TOKEN_CONS expression
    27           | expression TOKEN_CONS expression .
 
-    TOKEN_CONS  shift, and go to state 33
+    TOKEN_CONS  shift, and go to state 35
 
     $default  reduce using rule 27 (expression)
 
 
-State 56
+State 58
 
    14 expression: expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
@@ -1227,14 +1241,14 @@ State 56
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
 
     $default  reduce using rule 22 (expression)
 
 
-State 57
+State 59
 
    14 expression: expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
@@ -1251,14 +1265,14 @@ State 57
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
 
     $default  reduce using rule 23 (expression)
 
 
-State 58
+State 60
 
    14 expression: expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
@@ -1275,12 +1289,12 @@ State 58
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS  shift, and go to state 33
+    TOKEN_CONS  shift, and go to state 35
 
     $default  reduce using rule 24 (expression)
 
 
-State 59
+State 61
 
    14 expression: expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
@@ -1297,12 +1311,12 @@ State 59
    25           | expression TOKEN_DIVIDE expression .
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS  shift, and go to state 33
+    TOKEN_CONS  shift, and go to state 35
 
     $default  reduce using rule 25 (expression)
 
 
-State 60
+State 62
 
    14 expression: expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
@@ -1319,16 +1333,16 @@ State 60
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
 
     $default  reduce using rule 21 (expression)
 
 
-State 61
+State 63
 
    14 expression: expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
@@ -1345,16 +1359,16 @@ State 61
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
 
     $default  reduce using rule 20 (expression)
 
 
-State 62
+State 64
 
    14 expression: expression . TOKEN_EQ expression
    14           | expression TOKEN_EQ expression .
@@ -1371,18 +1385,18 @@ State 62
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
 
     $default  reduce using rule 14 (expression)
 
 
-State 63
+State 65
 
    14 expression: expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
@@ -1399,18 +1413,18 @@ State 63
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
 
     $default  reduce using rule 15 (expression)
 
 
-State 64
+State 66
 
    14 expression: expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
@@ -1427,18 +1441,18 @@ State 64
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
 
     $default  reduce using rule 17 (expression)
 
 
-State 65
+State 67
 
    14 expression: expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
@@ -1455,18 +1469,18 @@ State 65
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
 
     $default  reduce using rule 18 (expression)
 
 
-State 66
+State 68
 
    14 expression: expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
@@ -1483,18 +1497,18 @@ State 66
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
 
     $default  reduce using rule 16 (expression)
 
 
-State 67
+State 69
 
    14 expression: expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
@@ -1511,25 +1525,18 @@ State 67
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
 
     $default  reduce using rule 19 (expression)
 
 
-State 68
-
-   32 libcall: identifier TOKEN_DOT identifier .
-
-    $default  reduce using rule 32 (libcall)
-
-
-State 69
+State 70
 
     6 expression: TOKEN_LET identifier TOKEN_EQ expression . TOKEN_IN expression
    14           | expression . TOKEN_EQ expression
@@ -1546,23 +1553,23 @@ State 69
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
-    TOKEN_EQ      shift, and go to state 40
-    TOKEN_NEQ     shift, and go to state 41
-    TOKEN_GT      shift, and go to state 42
-    TOKEN_GEQ     shift, and go to state 43
-    TOKEN_LT      shift, and go to state 44
-    TOKEN_LEQ     shift, and go to state 45
-    TOKEN_IN      shift, and go to state 74
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
+    TOKEN_EQ      shift, and go to state 42
+    TOKEN_NEQ     shift, and go to state 43
+    TOKEN_GT      shift, and go to state 44
+    TOKEN_GEQ     shift, and go to state 45
+    TOKEN_LT      shift, and go to state 46
+    TOKEN_LEQ     shift, and go to state 47
+    TOKEN_IN      shift, and go to state 75
 
 
-State 70
+State 71
 
     9 expression: TOKEN_IF expression TOKEN_THEN expression . TOKEN_ELSE expression
    14           | expression . TOKEN_EQ expression
@@ -1579,30 +1586,30 @@ State 70
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
-    TOKEN_EQ      shift, and go to state 40
-    TOKEN_NEQ     shift, and go to state 41
-    TOKEN_GT      shift, and go to state 42
-    TOKEN_GEQ     shift, and go to state 43
-    TOKEN_LT      shift, and go to state 44
-    TOKEN_LEQ     shift, and go to state 45
-    TOKEN_ELSE    shift, and go to state 75
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
+    TOKEN_EQ      shift, and go to state 42
+    TOKEN_NEQ     shift, and go to state 43
+    TOKEN_GT      shift, and go to state 44
+    TOKEN_GEQ     shift, and go to state 45
+    TOKEN_LT      shift, and go to state 46
+    TOKEN_LEQ     shift, and go to state 47
+    TOKEN_ELSE    shift, and go to state 76
 
 
-State 71
+State 72
 
    37 identifier_list: identifier TOKEN_COMMA identifier_list .
 
     $default  reduce using rule 37 (identifier_list)
 
 
-State 72
+State 73
 
     7 expression: TOKEN_LAMBDA identifier_list TOKEN_DOT expression .
    14           | expression . TOKEN_EQ expression
@@ -1619,59 +1626,33 @@ State 72
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
-    TOKEN_EQ      shift, and go to state 40
-    TOKEN_NEQ     shift, and go to state 41
-    TOKEN_GT      shift, and go to state 42
-    TOKEN_GEQ     shift, and go to state 43
-    TOKEN_LT      shift, and go to state 44
-    TOKEN_LEQ     shift, and go to state 45
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
+    TOKEN_EQ      shift, and go to state 42
+    TOKEN_NEQ     shift, and go to state 43
+    TOKEN_GT      shift, and go to state 44
+    TOKEN_GEQ     shift, and go to state 45
+    TOKEN_LT      shift, and go to state 46
+    TOKEN_LEQ     shift, and go to state 47
 
     $default  reduce using rule 7 (expression)
 
 
-State 73
+State 74
 
     8 expression: TOKEN_FUN identifier TOKEN_WITH identifier_list . TOKEN_EQ expression TOKEN_IN expression
 
-    TOKEN_EQ  shift, and go to state 76
-
-
-State 74
-
-    6 expression: TOKEN_LET identifier TOKEN_EQ expression TOKEN_IN . expression
-
-    TOKEN_READSTRING  shift, and go to state 1
-    TOKEN_READINT     shift, and go to state 2
-    TOKEN_PRINT       shift, and go to state 3
-    TOKEN_ISNIL       shift, and go to state 4
-    TOKEN_HD          shift, and go to state 5
-    TOKEN_TL          shift, and go to state 6
-    TOKEN_NIL         shift, and go to state 7
-    TOKEN_LET         shift, and go to state 8
-    TOKEN_IDENTIFIER  shift, and go to state 9
-    TOKEN_INT         shift, and go to state 10
-    TOKEN_LPAREN      shift, and go to state 11
-    TOKEN_IF          shift, and go to state 12
-    TOKEN_LAMBDA      shift, and go to state 13
-    TOKEN_FUN         shift, and go to state 14
-    TOKEN_STRING      shift, and go to state 15
-    TOKEN_ERROR       shift, and go to state 16
-
-    expression  go to state 77
-    libcall     go to state 19
-    identifier  go to state 20
+    TOKEN_EQ  shift, and go to state 77
 
 
 State 75
 
-    9 expression: TOKEN_IF expression TOKEN_THEN expression TOKEN_ELSE . expression
+    6 expression: TOKEN_LET identifier TOKEN_EQ expression TOKEN_IN . expression
 
     TOKEN_READSTRING  shift, and go to state 1
     TOKEN_READINT     shift, and go to state 2
@@ -1697,7 +1678,7 @@ State 75
 
 State 76
 
-    8 expression: TOKEN_FUN identifier TOKEN_WITH identifier_list TOKEN_EQ . expression TOKEN_IN expression
+    9 expression: TOKEN_IF expression TOKEN_THEN expression TOKEN_ELSE . expression
 
     TOKEN_READSTRING  shift, and go to state 1
     TOKEN_READINT     shift, and go to state 2
@@ -1723,6 +1704,32 @@ State 76
 
 State 77
 
+    8 expression: TOKEN_FUN identifier TOKEN_WITH identifier_list TOKEN_EQ . expression TOKEN_IN expression
+
+    TOKEN_READSTRING  shift, and go to state 1
+    TOKEN_READINT     shift, and go to state 2
+    TOKEN_PRINT       shift, and go to state 3
+    TOKEN_ISNIL       shift, and go to state 4
+    TOKEN_HD          shift, and go to state 5
+    TOKEN_TL          shift, and go to state 6
+    TOKEN_NIL         shift, and go to state 7
+    TOKEN_LET         shift, and go to state 8
+    TOKEN_IDENTIFIER  shift, and go to state 9
+    TOKEN_INT         shift, and go to state 10
+    TOKEN_LPAREN      shift, and go to state 11
+    TOKEN_IF          shift, and go to state 12
+    TOKEN_LAMBDA      shift, and go to state 13
+    TOKEN_FUN         shift, and go to state 14
+    TOKEN_STRING      shift, and go to state 15
+    TOKEN_ERROR       shift, and go to state 16
+
+    expression  go to state 80
+    libcall     go to state 19
+    identifier  go to state 20
+
+
+State 78
+
     6 expression: TOKEN_LET identifier TOKEN_EQ expression TOKEN_IN expression .
    14           | expression . TOKEN_EQ expression
    15           | expression . TOKEN_NEQ expression
@@ -1738,24 +1745,24 @@ State 77
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
-    TOKEN_EQ      shift, and go to state 40
-    TOKEN_NEQ     shift, and go to state 41
-    TOKEN_GT      shift, and go to state 42
-    TOKEN_GEQ     shift, and go to state 43
-    TOKEN_LT      shift, and go to state 44
-    TOKEN_LEQ     shift, and go to state 45
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
+    TOKEN_EQ      shift, and go to state 42
+    TOKEN_NEQ     shift, and go to state 43
+    TOKEN_GT      shift, and go to state 44
+    TOKEN_GEQ     shift, and go to state 45
+    TOKEN_LT      shift, and go to state 46
+    TOKEN_LEQ     shift, and go to state 47
 
     $default  reduce using rule 6 (expression)
 
 
-State 78
+State 79
 
     9 expression: TOKEN_IF expression TOKEN_THEN expression TOKEN_ELSE expression .
    14           | expression . TOKEN_EQ expression
@@ -1772,24 +1779,24 @@ State 78
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
-    TOKEN_EQ      shift, and go to state 40
-    TOKEN_NEQ     shift, and go to state 41
-    TOKEN_GT      shift, and go to state 42
-    TOKEN_GEQ     shift, and go to state 43
-    TOKEN_LT      shift, and go to state 44
-    TOKEN_LEQ     shift, and go to state 45
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
+    TOKEN_EQ      shift, and go to state 42
+    TOKEN_NEQ     shift, and go to state 43
+    TOKEN_GT      shift, and go to state 44
+    TOKEN_GEQ     shift, and go to state 45
+    TOKEN_LT      shift, and go to state 46
+    TOKEN_LEQ     shift, and go to state 47
 
     $default  reduce using rule 9 (expression)
 
 
-State 79
+State 80
 
     8 expression: TOKEN_FUN identifier TOKEN_WITH identifier_list TOKEN_EQ expression . TOKEN_IN expression
    14           | expression . TOKEN_EQ expression
@@ -1806,23 +1813,23 @@ State 79
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
-    TOKEN_EQ      shift, and go to state 40
-    TOKEN_NEQ     shift, and go to state 41
-    TOKEN_GT      shift, and go to state 42
-    TOKEN_GEQ     shift, and go to state 43
-    TOKEN_LT      shift, and go to state 44
-    TOKEN_LEQ     shift, and go to state 45
-    TOKEN_IN      shift, and go to state 80
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
+    TOKEN_EQ      shift, and go to state 42
+    TOKEN_NEQ     shift, and go to state 43
+    TOKEN_GT      shift, and go to state 44
+    TOKEN_GEQ     shift, and go to state 45
+    TOKEN_LT      shift, and go to state 46
+    TOKEN_LEQ     shift, and go to state 47
+    TOKEN_IN      shift, and go to state 81
 
 
-State 80
+State 81
 
     8 expression: TOKEN_FUN identifier TOKEN_WITH identifier_list TOKEN_EQ expression TOKEN_IN . expression
 
@@ -1843,12 +1850,12 @@ State 80
     TOKEN_STRING      shift, and go to state 15
     TOKEN_ERROR       shift, and go to state 16
 
-    expression  go to state 81
+    expression  go to state 82
     libcall     go to state 19
     identifier  go to state 20
 
 
-State 81
+State 82
 
     8 expression: TOKEN_FUN identifier TOKEN_WITH identifier_list TOKEN_EQ expression TOKEN_IN expression .
    14           | expression . TOKEN_EQ expression
@@ -1865,18 +1872,18 @@ State 81
    25           | expression . TOKEN_DIVIDE expression
    27           | expression . TOKEN_CONS expression
 
-    TOKEN_CONS    shift, and go to state 33
-    TOKEN_PLUS    shift, and go to state 34
-    TOKEN_MINUS   shift, and go to state 35
-    TOKEN_TIMES   shift, and go to state 36
-    TOKEN_DIVIDE  shift, and go to state 37
-    TOKEN_AND     shift, and go to state 38
-    TOKEN_OR      shift, and go to state 39
-    TOKEN_EQ      shift, and go to state 40
-    TOKEN_NEQ     shift, and go to state 41
-    TOKEN_GT      shift, and go to state 42
-    TOKEN_GEQ     shift, and go to state 43
-    TOKEN_LT      shift, and go to state 44
-    TOKEN_LEQ     shift, and go to state 45
+    TOKEN_CONS    shift, and go to state 35
+    TOKEN_PLUS    shift, and go to state 36
+    TOKEN_MINUS   shift, and go to state 37
+    TOKEN_TIMES   shift, and go to state 38
+    TOKEN_DIVIDE  shift, and go to state 39
+    TOKEN_AND     shift, and go to state 40
+    TOKEN_OR      shift, and go to state 41
+    TOKEN_EQ      shift, and go to state 42
+    TOKEN_NEQ     shift, and go to state 43
+    TOKEN_GT      shift, and go to state 44
+    TOKEN_GEQ     shift, and go to state 45
+    TOKEN_LT      shift, and go to state 46
+    TOKEN_LEQ     shift, and go to state 47
 
     $default  reduce using rule 8 (expression)

@@ -21,26 +21,13 @@ void report_error(Expression* e, const string & s)
 	exit(1);
 }
 
-Evaluator::Evaluator() : Evaluator(false) {
-}
-
-Evaluator::Evaluator(bool isLib)
-{
-	sym_tab = new SymbolTable();
-	sym_tab->push();
-	c = 0;
-    isLib = isLib;
-    sym_tab_stack = new stack<SymbolTable*>();
-}
-
 Evaluator::Evaluator(bool isLib, map<string, SymbolTable*>* maps)
 {
 	sym_tab = new SymbolTable();
     sym_tab->push();
     c = 0;
-    isLib = isLib;
+    this->isLib = isLib;
     lib_maps = maps;
-    sym_tab_stack = new stack<SymbolTable*>();
 }
 
 Expression* Evaluator::eval_unop(AstUnOp* b)
@@ -234,6 +221,26 @@ Expression* Evaluator::eval(Expression* e)
         if (!isLib) {
             sym_tab->pop();
         }
+		break;
+	}
+	case AST_LIBCALL:
+	{
+		AstLibCall* libcall = static_cast<AstLibCall*>(e);
+		string libName = libcall->get_lib();
+		AstIdentifier* func = libcall->get_func();
+		map<string, SymbolTable*>::iterator iter = lib_maps->find(libName);
+		if (iter != lib_maps->end()) {
+			SymbolTable* lib_tab = iter->second;
+			res_exp = lib_tab->find(func);
+			if (res_exp == NULL) {
+  	            string id_str = func->to_string();
+            	int len = id_str.length();
+        	    id_str[len - 1] = '\0';
+				report_error(e,"Identifier " + id_str + " not found in library " + libName);
+			}
+	    } else {
+	    	report_error(e,"Library " + libName + " is not bound in current context");
+	    }
 		break;
 	}
 	case AST_IDENTIFIER:
