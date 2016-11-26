@@ -34,8 +34,17 @@ long int string_to_int(const string & s)
 	return res;
 }
 
+string float_to_string(double f)
+{
+    stringstream s;
+    s << f;
+    return s.str();
+}
 
-
+double string_to_float(const string& s)
+{
+    return stof(s);
+}
 
 
 void parse(const string & s, void (*write_fn)(string))
@@ -113,7 +122,6 @@ int main(int argc, char** argv)
         std::istringstream iss(temp);
         string word;
         while (iss >> word && import) {
-            cout << word << endl;
             if (word == "give-me") {
                 iss >> word;
                 res += readLib(word);
@@ -126,7 +134,6 @@ int main(int argc, char** argv)
         }
         res+=temp;
     }
-    cout << res;
     parse(res, report_error);
   
     if(print_ast && res_expr != NULL) {

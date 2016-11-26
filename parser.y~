@@ -177,9 +177,9 @@ expression: TOKEN_INT
 {
     $$ = AstUnOp::make(LEN, $2);
 }
-| expression TOKEN_DEL expression
+| TOKEN_DEL expression
 {
-    $$ = AstBinOp::make(DEL, $1, $3);
+    $$ = AstUnOp::make(DEL, $2);
 }
 | expression TOKEN_EQ expression
 {

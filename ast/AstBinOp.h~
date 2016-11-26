@@ -3,7 +3,7 @@
  #include "Expression.h"
  
  enum binop_type {PLUS, MINUS, TIMES, DIVIDE, AND, OR, EQ, NEQ, LT, LEQ,
-	 GT, GEQ, CONS, DEL};
+	 GT, GEQ, CONS};
  
 
  class AstBinOp;
