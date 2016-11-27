@@ -75,7 +75,7 @@ TOKEN_COMMA
 TOKEN_STRING 
 TOKEN_ERROR 
 TOKEN_IN
-
+TOKEN_LIBCALL
 
 
 %nonassoc EXPR
@@ -107,6 +107,10 @@ expression: TOKEN_INT
 	string lexeme = GET_LEXEME($1);
   	Expression* e = AstString::make(lexeme);
   	$$ = e;
+}
+| libcall
+{
+  $$ = $1;
 }
 | identifier
 {
@@ -235,12 +239,18 @@ expression: TOKEN_INT
    YYERROR;
 }
 
+libcall: TOKEN_IDENTIFIER TOKEN_DOT identifier 
+{
+  string lib = GET_LEXEME($1);
+  AstIdentifier* func = static_cast<AstIdentifier*>($3);
+  $$ = AstLibCall::make(lib, func);
+}
+
 identifier: TOKEN_IDENTIFIER
 {
 	string lexeme = GET_LEXEME($1);
-  	$$ =  AstIdentifier::make(lexeme);
+  $$ = AstIdentifier::make(lexeme);
 }
-
 
 expression_list: expression expression_list
 {

@@ -81,7 +81,8 @@ extern int yydebug;
     TOKEN_STRING = 291,
     TOKEN_ERROR = 292,
     TOKEN_IN = 293,
-    EXPR = 294
+    TOKEN_LIBCALL = 294,
+    EXPR = 295
   };
 #endif
 

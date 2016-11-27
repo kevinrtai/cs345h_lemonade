@@ -5,18 +5,10 @@
 
 #include "ast/expression.h"
 
-
-
-
-
 /*
  * This skeleton currently only contains code to handle integer constants, print and read. 
  * It is your job to handle all of the rest of the L language.
  */
-
-
-
-
 
 /*
  * Call this function to report any run-time errors
@@ -27,24 +19,14 @@ void report_error(Expression* e, const string & s)
 	cout << "Run-time error in expression " << e->to_value() << endl;
 	cout << s << endl;
 	exit(1);
-
-}
-
-Evaluator::Evaluator() : Evaluator(false) {
-}
-
-Evaluator::Evaluator(bool isLib)
-{
-	sym_tab.push();
-	c = 0;
-    isLib = isLib;
 }
 
 Evaluator::Evaluator(bool isLib, map<string, SymbolTable*>* maps)
 {
-    sym_tab.push();
+	sym_tab = new SymbolTable();
+    sym_tab->push();
     c = 0;
-    isLib = isLib;
+    this->isLib = isLib;
     lib_maps = maps;
 }
 
@@ -233,18 +215,38 @@ Expression* Evaluator::eval(Expression* e)
 		AstIdentifier* id = let->get_id();
 		Expression* val = let->get_val();
 		Expression* body = let->get_body();
-		sym_tab.push();
-		sym_tab.add(id, eval(val));
+		sym_tab->push();
+		sym_tab->add(id, eval(val));
 		res_exp = eval(body);
         if (!isLib) {
-            sym_tab.pop();
+            sym_tab->pop();
         }
+		break;
+	}
+	case AST_LIBCALL:
+	{
+		AstLibCall* libcall = static_cast<AstLibCall*>(e);
+		string libName = libcall->get_lib();
+		AstIdentifier* func = libcall->get_func();
+		map<string, SymbolTable*>::iterator iter = lib_maps->find(libName);
+		if (iter != lib_maps->end()) {
+			SymbolTable* lib_tab = iter->second;
+			res_exp = lib_tab->find(func);
+			if (res_exp == NULL) {
+  	            string id_str = func->to_string();
+            	int len = id_str.length();
+        	    id_str[len - 1] = '\0';
+				report_error(e,"Identifier " + id_str + " not found in library " + libName);
+			}
+	    } else {
+	    	report_error(e,"Library " + libName + " is not bound in current context");
+	    }
 		break;
 	}
 	case AST_IDENTIFIER:
 	{
 		AstIdentifier* id = static_cast<AstIdentifier*>(e);
-		res_exp = sym_tab.find(id);
+		res_exp = sym_tab->find(id);
 		if (res_exp == NULL) {
             string id_str = id->to_string();
             int len = id_str.length();
@@ -289,5 +291,5 @@ Expression* Evaluator::eval(Expression* e)
 
 SymbolTable* Evaluator::get_sym_tab()
 {
-    return &sym_tab;
+    return sym_tab;
 }

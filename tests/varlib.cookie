@@ -1,2 +1,0 @@
-let pi = 3 in
-let e = 2
