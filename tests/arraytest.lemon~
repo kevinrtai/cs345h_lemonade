@@ -1,9 +1,0 @@
-let x = 5 in
-let arr = [1,[2, x],3,4,x] in
-let another = arr + 99 in
-let empty = [] in
-let _ = print empty in
-let _ = print empty + 5 in
-let y = len arr + 5 in
-y
-
