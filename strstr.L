@@ -35,4 +35,4 @@ fun strtok with str1, str2 =
   let arr = [] in
   (strtok_recursive str1 str2 0 arr)
 in
-0
+(strtok "hello world goodbye" " ")

@@ -33,6 +33,7 @@
           case TL: return "#";
           case ISNIL: return "IsNil";
           case PRINT: return "print";
+          case LEN: return "len";
           default:
             assert(false);
         }
