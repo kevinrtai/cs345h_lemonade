@@ -38,13 +38,13 @@ fun factorial with x =
 in
 (* Greatest common divisor *)
 fun gcd with a, b =
-    let ea = a in
-    let eb = b in
-    if eb = 0 then 
-        ea
+    let aa = a in
+    let bb = b in
+    if bb = 0 then 
+        aa
     else 
-        let r = ea - eb * (ea / eb) in
-        (Math.gcd eb r)
+        let r = aa - bb * (aa / bb) in
+        (Math.gcd bb r)
 
 in
 fun sign with x =

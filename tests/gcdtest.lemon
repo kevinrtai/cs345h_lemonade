@@ -1,0 +1,2 @@
+give-me Math in
+(Math.gcd 15 45)
