@@ -1,0 +1,2 @@
+give-me stringlib in
+(strstr "hello" "ell")

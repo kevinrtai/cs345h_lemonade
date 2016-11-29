@@ -18,4 +18,21 @@ fun strstr with str1, str2 =
     999 else
     (stringlib.strstr_recursive str1 str2 0 str1_len-str2_len)
 in
+fun strsplit_recursive with str1, str2, start, str_so_far =
+  if start >= (len str1) then str_so_far else
+  if (str1 start) = str2 then
+    str_so_far else
+    let new_str = str_so_far + (str1 start) in
+    (strsplit_recursive str1 str2 start+1 new_str)
+in
+fun strtok_recursive with str1, str2, total_len, arr =
+  let split = (strsplit_recursive str1 str2 total_len "") in
+  if split = "" then arr else
+    let new_arr = arr + split in
+    (strtok_recursive str1 str2 total_len+(len split)+1 new_arr)
+in
+fun strtok with str1, str2 =
+  let arr = [] in
+  (strtok_recursive str1 str2 0 arr)
+in
 0
