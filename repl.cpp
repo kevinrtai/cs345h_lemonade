@@ -201,9 +201,10 @@ int main(int argc, char** argv)
         } else {
             // Maybe try to eavluate and only add to res if it doesn't fail?
             // This would mean we wouldn't have to clear after errors.
-            res+=temp;
+            //res+=temp;
             string temp_copy = temp;
             string temp_prog = res;
+            temp_prog += temp;
             if (word == "let" || word == "fun") {
                 std::istringstream temp_iss(temp_copy);
                 string temp_word;
@@ -216,7 +217,10 @@ int main(int argc, char** argv)
             }
             if (word != "give-me") {
                 // Maybe this should be factored out?
-                parse_with_import(temp_prog, report_error); 
+                parse_with_import(temp_prog, report_error);
+                if (res_expr != NULL) {
+                    res += temp;
+                }
                 if(print_ast && res_expr != NULL) {
 	            cout << "****************** AST ******************" << endl;
 	            cout << res_expr->to_string() << endl;
@@ -228,6 +232,8 @@ int main(int argc, char** argv)
 	            Expression* res = e->eval(res_expr);
 	            cout << res->to_value()<< endl;
                 }
+            } else {
+                res += temp;
             }
         }
     }
