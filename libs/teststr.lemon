@@ -1,2 +1,2 @@
 give-me stringlib in
-(strstr "hello" "ell")
+(stringlib.strstr "hello" "ell")
