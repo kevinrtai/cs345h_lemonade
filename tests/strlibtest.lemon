@@ -1,0 +1,2 @@
+give-me stringlib in
+(stringlib.strstr "abc" "abc")
