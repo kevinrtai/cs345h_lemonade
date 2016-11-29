@@ -1,0 +1,76 @@
+(* return array of zero's *)
+fun zero_helper with arr, x =
+    if x = 0 then arr 
+    else (Array.zero_helper arr x - 1) + 0
+in
+fun zeros with x =
+    if x = 0 then []
+    else (Array.zero_helper [] x)
+in
+
+(* find index of first occurence of x in arr *)
+fun indexOf_helper with arr, x, i =
+    if i >= (len arr) then -1.0
+    else 
+        if (arr i) = x then i
+        else (Array.indexOf_helper arr x i + 1)
+in
+fun indexOf with arr, x =
+    (Array.indexOf_helper arr x 0)
+in
+
+(* return sum of elements in arr *)
+fun sum_helper with arr, i =
+    if i >= (len arr) then 0
+    else (arr i) + (Array.sum_helper arr i + 1)
+in
+fun sum with arr =
+    (Array.sum_helper arr 0)
+in
+
+(* replace all instances of a in arr with b *)
+fun replace_helper with arr, a, b, i =
+    if i = (len arr) - 1 then
+        if (arr i) = a then [b]
+        else arr
+    else 
+        if (arr i) = a then [b] + (Array.replace_helper arr a b i + 1)
+        else [(arr i)] + (Array.replace_helper arr a b i + 1)
+in
+fun replaceAll with arr, a, b =
+    if (arr 0) = a then [b] + (Array.replace_helper arr a b 1)
+    else [(arr 0)] + (Array.replace_helper arr a b 1)
+in
+
+(* return boolean; true if a is in arr and false otherwise *)
+fun contains_helper with arr, a, i =
+    if i >= (len arr) then -1.0
+    else
+        if (arr i) = a then i
+        else (Array.contains_helper arr a i + 1)
+in
+fun contains with arr, a =
+    (Array.contains_helper arr a 0)
+in
+
+(* return sub array *)
+fun subArr_helper with arr, i, j, k =
+    if k < i then (Array.subArr_helper arr i j k + 1)
+    else
+        if k < j - 1 then [(arr k)] + (Array.subArr_helper arr i j k + 1) 
+        else (arr k)
+in
+fun subArr2 with arr, i, j =
+    (Array.subArr_helper arr i j 0)
+in
+fun subArr1 with arr, i =
+    (Array.subArr_helper arr i (len arr) 0)
+in
+
+(* insert a into arr at index i *)
+fun insert with arr, a, i =
+    let arr1 = (Array.subArr2 arr 0 i) in
+    let arr2 = (Array.subArr1 arr i) in
+    arr1 + a + arr2
+in
+0
