@@ -12,6 +12,7 @@ string FILEPATH = "libs/";
 #include "ast/expression.h"
 #include "Evaluator.h"
 map<string, SymbolTable*>* sym_tab_map = new map<string, SymbolTable*>();
+set<string> libs;
 
 void (*parser_error_fn)(string);
 int curr_lineno;
@@ -96,8 +97,15 @@ SymbolTable* readLib(string word) {
         while (iss >> word && import) {
             if (word == "give-me") {
                 iss >> word;
-                map<string, SymbolTable*>::iterator it = sym_tab_map->begin();
-                sym_tab_map->insert(it, pair<string, SymbolTable*>(word, readLib(word)));
+                // Recurse if dependency has not been processed.
+                if (libs.find(word) == libs.end()) {
+                    libs.insert(word);
+                    map<string, SymbolTable*>::iterator it = sym_tab_map->begin();
+                    sym_tab_map->insert(it, pair<string, SymbolTable*>(word, readLib(word)));
+                }
+
+         //       map<string, SymbolTable*>::iterator it = sym_tab_map->begin();
+           //     sym_tab_map->insert(it, pair<string, SymbolTable*>(word, readLib(word)));
                 temp.erase(0, 8); // remove word
                 temp.erase(0, word.length() + 1); // remove next word
                 iss >> word; // skip "in"
@@ -139,8 +147,15 @@ void parse_with_import(const string & s, void (*write_fn)(string)) {
         while (iss >> word && import) {
             if (word == "give-me") {
                 iss >> word;
-                map<string, SymbolTable*>::iterator it = sym_tab_map->begin();
-                sym_tab_map->insert(it, pair<string, SymbolTable*>(word, readLib(word)));
+                // Recurse if dependency has not been processed.
+                if (libs.find(word) == libs.end()) {
+                    libs.insert(word);
+                    map<string, SymbolTable*>::iterator it = sym_tab_map->begin();
+                    sym_tab_map->insert(it, pair<string, SymbolTable*>(word, readLib(word)));
+                }
+
+             //   map<string, SymbolTable*>::iterator it = sym_tab_map->begin();
+               // sym_tab_map->insert(it, pair<string, SymbolTable*>(word, readLib(word)));
                 temp.erase(0, 8); // remove word
                 temp.erase(0, word.length() + 1); // remove next word
                 iss >> word; // skip "in"
