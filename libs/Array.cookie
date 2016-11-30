@@ -44,9 +44,9 @@ in
 
 (* return boolean; true if a is in arr and false otherwise *)
 fun contains_helper with arr, a, i =
-    if i >= (len arr) then -1.0
+    if i >= (len arr) then 0
     else
-        if (arr i) = a then i
+        if (arr i) = a then 1
         else (Array.contains_helper arr a i + 1)
 in
 fun contains with arr, a =
