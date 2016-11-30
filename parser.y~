@@ -264,10 +264,6 @@ expression: TOKEN_INT
 {
     $$ = $2;
 }
-| TOKEN_LCURLY TOKEN_RCURLY
-{
-    $$ = AstDict::make();
-}
 | TOKEN_ERROR 
 {
    // do not change the error rule

@@ -138,7 +138,7 @@ const vector<pair<Expression*, Expression*> >& AstDict::get_vec()
 
 bool AstDict::contains(const string& str)
 {
-    return dict.find(str) != dict.end();
+    return (dict.find(str) != dict.end());
 }
 
 Expression* AstDict::substitute(Expression* e1, Expression* e2)

@@ -20,7 +20,6 @@ AstDict* AstDict::make(unordered_map<string, Expression*>& in_map)
 AstDict* AstDict::make(vector<pair<Expression*, Expression*> >& vec)
 {
     // constructor used by the parser, with un-evaluated expressions
-    cout << vec.size() << endl;
     vector<pair<Expression*, Expression*> > copy = vec;
     AstDict* d = new AstDict(copy);
     Expression* res = get_exp(d);
