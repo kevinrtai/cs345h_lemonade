@@ -69,11 +69,4 @@ in
 fun substr1 with str, i =
     (String.substr_helper str i (len str) 0)
 in
-
-(* Return string with first word capitalized *)
-fun capitalize with str =
-    let b = (String.strstr String.lowercase (str 0)) in
-    if b < 0 then str
-    else (String.uppercase b) + (String.substr1 str 1)
-in
 0

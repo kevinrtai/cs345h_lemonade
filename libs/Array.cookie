@@ -42,11 +42,11 @@ fun replaceAll with arr, a, b =
     else [(arr 0)] + (Array.replace_helper arr a b 1)
 in
 
-(* return boolean; true if a is in arr and false otherwise *)
+(* return index of first occurrence of a in arr *)
 fun contains_helper with arr, a, i =
-    if i >= (len arr) then 0
+    if i >= (len arr) then -1.0
     else
-        if (arr i) = a then 1
+        if (arr i) = a then i
         else (Array.contains_helper arr a i + 1)
 in
 fun contains with arr, a =
