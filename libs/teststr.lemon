@@ -1,2 +1,0 @@
-give-me stringlib in
-(stringlib.strstr "hello" "ell")
