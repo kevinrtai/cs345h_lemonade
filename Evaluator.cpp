@@ -1,14 +1,7 @@
-// Virin Tamprateep, vt4624
-// Chris Denny,      cd28957
-
 #include "Evaluator.h"
 
 #include "ast/expression.h"
 
-/*
- * This skeleton currently only contains code to handle integer constants, print and read. 
- * It is your job to handle all of the rest of the L language.
- */
 
 /*
  * Call this function to report any run-time errors

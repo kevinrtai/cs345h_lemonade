@@ -49,11 +49,6 @@ double string_to_float(const string& s)
     return stof(s);
 }
 
-
-
-
-
-
 void parse(const string & s, void (*write_fn)(string))
 {
 	curr_lineno = 1;
@@ -168,7 +163,6 @@ void parse_with_import(const string & s, void (*write_fn)(string)) {
     }
     parse(res, report_error);
 }
-
 
 int main(int argc, char** argv)
 {

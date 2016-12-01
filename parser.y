@@ -1,9 +1,5 @@
 %{
 
-/* Kevin Tai    krt752  kevin.r.tai@utexas.edu
- * Ziqiu Chen   zc3428  stevenchen@utexas.edu
- */
-
 #include "parser-defs.h"
 
 int yylex();

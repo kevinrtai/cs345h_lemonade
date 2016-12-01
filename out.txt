@@ -1,5 +1,0 @@
-bison -dv parser.y
-g++ -g -Wall -std=c++0x   -c -o parser.tab.o parser.tab.c
-flex -i lexer.l
-g++ -g -Wall -std=c++0x   -c -o lex.yy.o lex.yy.c
-g++ -g -Wall -std=c++0x  -I-.  -I./ast -c ast/*.cpp

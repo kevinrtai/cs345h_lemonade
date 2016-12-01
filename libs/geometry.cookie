@@ -1,4 +1,0 @@
-give-me funclib in
-give-me varlib in
-fun circumference with r = 2 * r * varlib.pi in
-0
